@@ -110,6 +110,25 @@ public class SalesService : ISalesService
             _db.Set<Payment>().Add(new Payment { SaleId = sale.Id, Method = p.Method, Amount = p.Amount, Reference = p.Reference, Status = "Captured" });
         }
 
+        // Loyalty accrual
+        if (!string.IsNullOrWhiteSpace(customerId))
+        {
+            try
+            {
+                var loyalty = _db.GetService<POS.Modules.Customers.Services.ICustomerLoyaltyService>();
+                if (loyalty != null)
+                {
+                    // Example: 1 point per currency unit
+                    var points = (int)Math.Floor(sale.TotalAmount);
+                    await loyalty.AddPointsAsync(organizationId, customerId!, points, ct);
+                }
+            }
+            catch
+            {
+                // swallow loyalty accrual failures to not block checkout
+            }
+        }
+
         // Clear cart
         _db.Set<Cart>().Remove(await _db.Set<Cart>().FirstAsync(c => c.Id == cartId, ct));
         _db.Set<CartItem>().RemoveRange(_db.Set<CartItem>().Where(ci => ci.CartId == cartId));

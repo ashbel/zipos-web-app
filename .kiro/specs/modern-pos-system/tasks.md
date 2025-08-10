@@ -151,7 +151,7 @@
 
   - [ ] 7.2 Add customer purchase history tracking
     - [x] Implement purchase history association (sales linked to customer)
-    - [ ] Create customer analytics and insights
+    - [x] Create customer analytics and insights (total spent, avg order, recency)
     - [x] Add customer loyalty tracking foundation (points + tier entity and APIs)
     - [ ] Write integration tests for purchase history
     - _Requirements: 9.2, 9.3_

@@ -12,5 +12,6 @@ public class CustomersModule : IModule
         services.AddScoped<Services.ICustomerService, Services.CustomerService>();
         services.AddScoped<Services.ICustomerHistoryService, Services.CustomerHistoryService>();
         services.AddScoped<Services.ICustomerLoyaltyService, Services.CustomerLoyaltyService>();
+        services.AddScoped<Services.ICustomerAnalyticsService, Services.CustomerAnalyticsService>();
     }
 }

@@ -11,12 +11,14 @@ public class CustomersController : ControllerBase
     private readonly ICustomerService _service;
     private readonly ICustomerHistoryService _historyService;
     private readonly ICustomerLoyaltyService _loyaltyService;
+    private readonly ICustomerAnalyticsService _analyticsService;
 
-    public CustomersController(ICustomerService service, ICustomerHistoryService historyService, ICustomerLoyaltyService loyaltyService)
+    public CustomersController(ICustomerService service, ICustomerHistoryService historyService, ICustomerLoyaltyService loyaltyService, ICustomerAnalyticsService analyticsService)
     {
         _service = service;
         _historyService = historyService;
         _loyaltyService = loyaltyService;
+        _analyticsService = analyticsService;
     }
 
     [HttpGet]
@@ -66,6 +68,14 @@ public class CustomersController : ControllerBase
     {
         var cl = await _loyaltyService.GetAsync(organizationId, id, ct);
         return Ok(cl);
+    }
+
+    [HttpGet("{id}/analytics")]
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)] // placeholder
+    public async Task<IActionResult> GetAnalytics([FromQuery] string organizationId, [FromRoute] string id, CancellationToken ct)
+    {
+        var a = await _analyticsService.GetAnalyticsAsync(organizationId, id, ct);
+        return Ok(a);
     }
 }
 
