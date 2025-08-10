@@ -9,10 +9,12 @@ namespace POS.Web.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthenticationService _auth;
+    private readonly IConfiguration _config;
 
-    public AuthController(IAuthenticationService auth)
+    public AuthController(IAuthenticationService auth, IConfiguration config)
     {
         _auth = auth;
+        _config = config;
     }
 
     [HttpPost("login")]

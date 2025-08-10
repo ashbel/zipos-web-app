@@ -59,7 +59,7 @@
 
   - [ ] 3.2 Implement role-based authorization
     - [x] Create Role and Permission entities
-    - [ ] Implement authorization policies and handlers
+    - [ ] Implement authorization policies and handlers (in progress)
     - [ ] Add role assignment and permission checking
     - [ ] Write unit tests for authorization logic
     - _Requirements: 1.2, 1.3_
