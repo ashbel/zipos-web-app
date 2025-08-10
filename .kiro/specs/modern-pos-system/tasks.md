@@ -278,17 +278,17 @@
 
 - [ ] 15. Cost Tracking and Profitability
   - [ ] 15.1 Implement cost tracking system
-    - Add average cost calculation on purchases
-    - Implement COGS tracking per sale
-    - Create gross profit calculation
-    - Write unit tests for cost calculations
+    - [x] Add average cost calculation on purchases (GRN)
+    - [x] Implement COGS tracking per sale (item-level and sale-level)
+    - [x] Create gross profit calculation (sale-level)
+    - [ ] Write unit tests for cost calculations
     - _Requirements: 5.1, 5.2, 5.3_
 
   - [ ] 15.2 Add profitability reporting
-    - Create profit margin reports
-    - Implement product profitability analysis
-    - Add cost trend reporting
-    - Write integration tests for profitability features
+    - [ ] Create profit margin reports
+    - [ ] Implement product profitability analysis
+    - [ ] Add cost trend reporting
+    - [ ] Write integration tests for profitability features
     - _Requirements: 5.4_
 
 - [ ] 16. Mobile App Foundation

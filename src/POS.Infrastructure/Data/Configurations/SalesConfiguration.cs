@@ -45,6 +45,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.TaxAmount).HasPrecision(18, 2);
         builder.Property(x => x.DiscountAmount).HasPrecision(18, 2);
         builder.Property(x => x.TotalAmount).HasPrecision(18, 2);
+        builder.Property(x => x.CogsAmount).HasPrecision(18, 2);
+        builder.Property(x => x.GrossProfit).HasPrecision(18, 2);
         builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Completed");
         builder.HasIndex(x => new { x.BranchId, x.TransactionDate });
     }
@@ -63,6 +65,8 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
         builder.Property(x => x.UnitPrice).HasPrecision(18, 2);
         builder.Property(x => x.DiscountAmount).HasPrecision(18, 2);
         builder.Property(x => x.TotalAmount).HasPrecision(18, 2);
+        builder.Property(x => x.UnitCost).HasPrecision(18, 4);
+        builder.Property(x => x.CogsAmount).HasPrecision(18, 2);
         builder.HasIndex(x => x.SaleId);
     }
 }

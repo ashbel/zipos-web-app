@@ -29,6 +29,8 @@ public class Sale : TenantEntity
     public decimal TaxAmount { get; set; }
     public decimal DiscountAmount { get; set; }
     public decimal TotalAmount { get; set; }
+    public decimal CogsAmount { get; set; }
+    public decimal GrossProfit { get; set; }
     public string Status { get; set; } = "Completed"; // Completed, Refunded, Voided
 }
 
@@ -41,6 +43,8 @@ public class SaleItem : TenantEntity
     public decimal UnitPrice { get; set; }
     public decimal DiscountAmount { get; set; }
     public decimal TotalAmount { get; set; }
+    public decimal UnitCost { get; set; }
+    public decimal CogsAmount { get; set; }
 }
 
 public class Payment : TenantEntity

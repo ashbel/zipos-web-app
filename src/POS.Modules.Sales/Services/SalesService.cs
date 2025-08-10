@@ -82,6 +82,9 @@ public class SalesService : ISalesService
 
         foreach (var i in items)
         {
+            var inv = await _db.Set<InventoryItem>().AsNoTracking().FirstOrDefaultAsync(ii => ii.ProductId == i.ProductId && ii.BranchId == cart.BranchId, ct);
+            var unitCost = inv?.AverageCost ?? 0m;
+            var itemCogs = Math.Round(unitCost * i.Quantity, 2);
             var saleItem = new SaleItem
             {
                 SaleId = sale.Id,
@@ -90,13 +93,21 @@ public class SalesService : ISalesService
                 Quantity = i.Quantity,
                 UnitPrice = i.UnitPrice,
                 DiscountAmount = i.DiscountAmount,
-                TotalAmount = i.TotalAmount
+                TotalAmount = i.TotalAmount,
+                UnitCost = unitCost,
+                CogsAmount = itemCogs
             };
             _db.Set<SaleItem>().Add(saleItem);
 
             // Deduct inventory
             await _inventoryService.AdjustStockAsync(organizationId, new Modules.Inventory.Services.AdjustStockRequest(i.ProductId, cart.BranchId, -i.Quantity, "Sale checkout"), ct);
         }
+
+        // Compute sale-level COGS and gross profit
+        var saleItems = await _db.Set<SaleItem>().AsNoTracking().Where(si => si.SaleId == sale.Id).ToListAsync(ct);
+        sale.CogsAmount = saleItems.Sum(x => x.CogsAmount);
+        sale.GrossProfit = Math.Round(sale.TotalAmount - sale.CogsAmount, 2);
+        await _db.SaveChangesAsync(ct);
 
         // Record payments (split supported)
         var paymentsList = payments?.ToList() ?? new List<PaymentRequest>();
