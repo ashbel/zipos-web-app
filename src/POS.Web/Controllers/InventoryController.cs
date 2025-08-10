@@ -31,5 +31,21 @@ public class InventoryController : ControllerBase
         var item = await _inventoryService.AdjustStockAsync(organizationId, request, ct);
         return Ok(item);
     }
+
+    [HttpGet("alerts")]
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> Alerts([FromQuery] string organizationId, CancellationToken ct)
+    {
+        var items = await _inventoryService.GetStockAlertsAsync(organizationId, ct);
+        return Ok(items);
+    }
+
+    [HttpPost("alerts/{id}/ack")] 
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> AckAlert([FromQuery] string organizationId, [FromRoute] string id, CancellationToken ct)
+    {
+        var ok = await _inventoryService.AcknowledgeAlertAsync(organizationId, id, ct);
+        return ok ? NoContent() : NotFound();
+    }
 }
 

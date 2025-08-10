@@ -55,5 +55,22 @@ public class InventoryService : IInventoryService
         _tenantContext.SetTenant(organizationId);
         return await _db.Set<InventoryItem>().AsNoTracking().FirstOrDefaultAsync(i => i.ProductId == productId && i.BranchId == branchId, ct);
     }
+
+    public async Task<IReadOnlyList<StockAlert>> GetStockAlertsAsync(string organizationId, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        return await _db.Set<StockAlert>().AsNoTracking().Where(a => !a.IsAcknowledged).ToListAsync(ct);
+    }
+
+    public async Task<bool> AcknowledgeAlertAsync(string organizationId, string alertId, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var alert = await _db.Set<StockAlert>().FirstOrDefaultAsync(a => a.Id == alertId, ct);
+        if (alert == null) return false;
+        alert.IsAcknowledged = true;
+        alert.AcknowledgedAt = DateTime.UtcNow;
+        await _db.SaveChangesAsync(ct);
+        return true;
+    }
 }
 

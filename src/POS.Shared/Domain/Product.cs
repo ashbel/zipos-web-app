@@ -24,6 +24,16 @@ public class InventoryItem : TenantEntity
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 }
 
+public class StockAlert : TenantEntity
+{
+    public string ProductId { get; set; } = string.Empty;
+    public string BranchId { get; set; } = string.Empty;
+    public decimal CurrentStock { get; set; }
+    public decimal ReorderLevel { get; set; }
+    public bool IsAcknowledged { get; set; }
+    public DateTime? AcknowledgedAt { get; set; }
+}
+
 public class Category : TenantEntity
 {
     public string Name { get; set; } = string.Empty;

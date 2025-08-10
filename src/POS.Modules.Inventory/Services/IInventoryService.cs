@@ -6,6 +6,8 @@ public interface IInventoryService
 {
     Task<InventoryItem> AdjustStockAsync(string organizationId, AdjustStockRequest request, CancellationToken ct = default);
     Task<InventoryItem?> GetInventoryAsync(string organizationId, string productId, string branchId, CancellationToken ct = default);
+    Task<IReadOnlyList<StockAlert>> GetStockAlertsAsync(string organizationId, CancellationToken ct = default);
+    Task<bool> AcknowledgeAlertAsync(string organizationId, string alertId, CancellationToken ct = default);
 }
 
 public record AdjustStockRequest(string ProductId, string BranchId, decimal QuantityDelta, string Reason);

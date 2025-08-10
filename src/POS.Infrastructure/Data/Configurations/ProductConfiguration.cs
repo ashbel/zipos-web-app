@@ -72,3 +72,19 @@ public class StockMovementConfiguration : IEntityTypeConfiguration<StockMovement
     }
 }
 
+public class StockAlertConfiguration : IEntityTypeConfiguration<StockAlert>
+{
+    public void Configure(EntityTypeBuilder<StockAlert> builder)
+    {
+        builder.ToTable("stock_alerts");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.BranchId).IsRequired();
+        builder.Property(x => x.CurrentStock).HasPrecision(18, 3);
+        builder.Property(x => x.ReorderLevel).HasPrecision(18, 3);
+        builder.Property(x => x.IsAcknowledged).HasDefaultValue(false);
+        builder.Property(x => x.AcknowledgedAt);
+        builder.HasIndex(x => new { x.ProductId, x.BranchId }).IsUnique();
+    }
+}
+

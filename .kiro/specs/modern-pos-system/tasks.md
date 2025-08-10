@@ -101,7 +101,7 @@
     - [x] Create InventoryItem entity for multi-branch stock
     - [x] Implement inventory read and stock adjustment (API + service)
     - [x] Implement stock movement tracking and audit trail (basic)
-    - [ ] Add reorder level monitoring and alerts
+    - [x] Add reorder level monitoring and alerts (alerts entity + endpoints + job)
     - [ ] Write integration tests for inventory operations
     - _Requirements: 3.2, 3.3, 3.4_
 
