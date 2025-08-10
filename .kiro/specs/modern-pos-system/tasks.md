@@ -270,8 +270,8 @@
 
   - [ ] 14.2 Add purchase order processing
     - [x] Define PO/GRN entities and mappings
-    - [ ] Implement PO creation and approval workflow
-    - [ ] Create goods received note (GRN) functionality
+    - [x] Implement PO creation and approval workflow
+    - [x] Create goods received note (GRN) functionality (updates inventory and average cost)
     - [ ] Add purchase returns processing
     - [ ] Write integration tests for purchase workflow
     - _Requirements: 4.2, 4.3_
