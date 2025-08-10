@@ -10,5 +10,6 @@ public class CustomersModule : IModule
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddScoped<Services.ICustomerService, Services.CustomerService>();
+        services.AddScoped<Services.ICustomerHistoryService, Services.CustomerHistoryService>();
     }
 }

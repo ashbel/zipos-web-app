@@ -150,7 +150,7 @@
     - _Requirements: 9.1, 9.4_
 
   - [ ] 7.2 Add customer purchase history tracking
-    - [ ] Implement purchase history association
+    - [x] Implement purchase history association (sales linked to customer)
     - [ ] Create customer analytics and insights
     - [ ] Add customer loyalty tracking foundation
     - [ ] Write integration tests for purchase history

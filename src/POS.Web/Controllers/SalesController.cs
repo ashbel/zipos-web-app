@@ -44,12 +44,14 @@ public class SalesController : ControllerBase
 
     [HttpPost("cart/{cartId}/checkout")]
     [Authorize(Policy = "CanManageUsers")] // placeholder policy
-    public async Task<IActionResult> Checkout([FromQuery] string organizationId, [FromRoute] string cartId, [FromBody] IEnumerable<PaymentRequest> payments, CancellationToken ct)
+    public async Task<IActionResult> Checkout([FromQuery] string organizationId, [FromRoute] string cartId, [FromBody] CheckoutRequest request, CancellationToken ct)
     {
-        var sale = await _sales.CheckoutAsync(organizationId, cartId, payments, ct);
+        var sale = await _sales.CheckoutAsync(organizationId, cartId, request.Payments, request.CustomerId, ct);
         var receipt = await _receipt.GenerateReceiptAsync(organizationId, sale.Id, ct);
         return Ok(new { sale, receipt });
     }
+
+    public record CheckoutRequest(IEnumerable<PaymentRequest> Payments, string? CustomerId);
 
     [HttpPost("sales/{saleId}/refunds")]
     [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)]

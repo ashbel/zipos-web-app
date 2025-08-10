@@ -59,7 +59,7 @@ public class SalesService : ISalesService
         return cart;
     }
 
-    public async Task<Sale> CheckoutAsync(string organizationId, string cartId, IEnumerable<PaymentRequest> payments, CancellationToken ct = default)
+    public async Task<Sale> CheckoutAsync(string organizationId, string cartId, IEnumerable<PaymentRequest> payments, string? customerId = null, CancellationToken ct = default)
     {
         _tenantContext.SetTenant(organizationId);
         var cart = await _db.Set<Cart>().AsNoTracking().FirstAsync(c => c.Id == cartId, ct);
@@ -68,6 +68,7 @@ public class SalesService : ISalesService
         var sale = new Sale
         {
             BranchId = cart.BranchId,
+            CustomerId = customerId ?? string.Empty,
             UserId = cart.UserId,
             SubTotal = items.Sum(i => i.UnitPrice * i.Quantity),
             DiscountAmount = items.Sum(i => i.DiscountAmount),

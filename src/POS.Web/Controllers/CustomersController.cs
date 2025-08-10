@@ -9,10 +9,12 @@ namespace POS.Web.Controllers;
 public class CustomersController : ControllerBase
 {
     private readonly ICustomerService _service;
+    private readonly ICustomerHistoryService _historyService;
 
-    public CustomersController(ICustomerService service)
+    public CustomersController(ICustomerService service, ICustomerHistoryService historyService)
     {
         _service = service;
+        _historyService = historyService;
     }
 
     [HttpGet]
@@ -46,6 +48,14 @@ public class CustomersController : ControllerBase
     {
         var ok = await _service.DeleteAsync(organizationId, id, ct);
         return ok ? NoContent() : NotFound();
+    }
+
+    [HttpGet("{id}/purchases")]
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)] // placeholder
+    public async Task<IActionResult> GetPurchases([FromQuery] string organizationId, [FromRoute] string id, CancellationToken ct)
+    {
+        var sales = await _historyService.GetPurchaseHistoryAsync(organizationId, id, ct);
+        return Ok(sales);
     }
 }
 
