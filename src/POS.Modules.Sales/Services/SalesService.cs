@@ -121,6 +121,32 @@ public class SalesService : ISalesService
             _db.Set<Payment>().Add(new Payment { SaleId = sale.Id, Method = p.Method, Amount = p.Amount, Reference = p.Reference, Status = "Captured" });
         }
 
+        // Handle customer credit charges if applicable
+        if (paymentsList.Any(p => string.Equals(p.Method, "Credit", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (string.IsNullOrWhiteSpace(customerId))
+            {
+                throw new InvalidOperationException("Customer is required when paying by credit");
+            }
+            try
+            {
+                var credit = _db.GetService<Modules.Customers.Services.ICustomerCreditService>();
+                if (credit != null)
+                {
+                    var creditAmount = paymentsList.Where(p => string.Equals(p.Method, "Credit", StringComparison.OrdinalIgnoreCase)).Sum(p => p.Amount);
+                    var ok = await credit.ChargeAsync(organizationId, customerId!, creditAmount, sale.Id, "Sale charged to customer credit", ct);
+                    if (!ok)
+                    {
+                        throw new InvalidOperationException("Credit charge failed (limit/status)");
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         // Loyalty accrual
         if (!string.IsNullOrWhiteSpace(customerId))
         {

@@ -323,16 +323,16 @@
 
 - [ ] 18. Advanced Customer Features
   - [ ] 18.1 Implement loyalty program foundation
-    - Create loyalty program entities
-    - Implement point accumulation system
-    - Add customer tier management
+    - [x] Create loyalty program entities
+    - [x] Implement point accumulation system
+    - [x] Add customer tier management
     - Write unit tests for loyalty features
     - _Requirements: 9.2, 9.3_
 
   - [ ] 18.2 Add customer credit management
-    - Implement credit limit tracking
-    - Create outstanding balance management
-    - Add payment tracking for credit customers
+    - [x] Implement credit limit tracking
+    - [x] Create outstanding balance management
+    - [x] Add payment tracking for credit customers
     - Write integration tests for credit management
     - _Requirements: 9.4_
 

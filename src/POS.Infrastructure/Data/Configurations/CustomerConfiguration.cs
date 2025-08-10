@@ -35,3 +35,50 @@ public class CustomerLoyaltyConfiguration : IEntityTypeConfiguration<CustomerLoy
     }
 }
 
+public class LoyaltyTierDefinitionConfiguration : IEntityTypeConfiguration<LoyaltyTierDefinition>
+{
+    public void Configure(EntityTypeBuilder<LoyaltyTierDefinition> builder)
+    {
+        builder.ToTable("loyalty_tiers");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
+        builder.Property(x => x.MinPoints).IsRequired();
+        builder.Property(x => x.MaxPoints);
+        builder.Property(x => x.DiscountPercent).HasPrecision(18, 2).HasDefaultValue(0);
+        builder.Property(x => x.Priority).HasDefaultValue(0);
+        builder.HasIndex(x => x.Name).IsUnique();
+    }
+}
+
+public class CustomerCreditConfiguration : IEntityTypeConfiguration<CustomerCredit>
+{
+    public void Configure(EntityTypeBuilder<CustomerCredit> builder)
+    {
+        builder.ToTable("customer_credit");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.CustomerId).IsRequired();
+        builder.Property(x => x.CreditLimit).HasPrecision(18, 2).HasDefaultValue(0);
+        builder.Property(x => x.OutstandingBalance).HasPrecision(18, 2).HasDefaultValue(0);
+        builder.Property(x => x.Status).HasMaxLength(20).HasDefaultValue("Active");
+        builder.Property(x => x.LastUpdated).HasDefaultValueSql("now()");
+        builder.HasIndex(x => x.CustomerId).IsUnique();
+    }
+}
+
+public class CustomerCreditTransactionConfiguration : IEntityTypeConfiguration<CustomerCreditTransaction>
+{
+    public void Configure(EntityTypeBuilder<CustomerCreditTransaction> builder)
+    {
+        builder.ToTable("customer_credit_txns");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.CustomerId).IsRequired();
+        builder.Property(x => x.OccurredAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.Type).HasMaxLength(20).IsRequired();
+        builder.Property(x => x.Amount).HasPrecision(18, 2).IsRequired();
+        builder.Property(x => x.Reference).HasMaxLength(100);
+        builder.Property(x => x.Note).HasMaxLength(500);
+        builder.Property(x => x.SaleId);
+        builder.HasIndex(x => new { x.CustomerId, x.OccurredAt });
+    }
+}
+

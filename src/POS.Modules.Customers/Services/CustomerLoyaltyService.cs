@@ -35,9 +35,40 @@ public class CustomerLoyaltyService : ICustomerLoyaltyService
         var cl = await GetAsync(organizationId, customerId, ct);
         cl.Points += points;
         cl.LastUpdated = DateTime.UtcNow;
-        // TODO: update tier based on thresholds
+        // Update tier based on thresholds
+        var tiers = await _db.Set<LoyaltyTierDefinition>().AsNoTracking().OrderByDescending(t => t.Priority).ThenByDescending(t => t.MinPoints).ToListAsync(ct);
+        var matched = tiers.FirstOrDefault(t => cl.Points >= t.MinPoints && (!t.MaxPoints.HasValue || cl.Points <= t.MaxPoints.Value));
+        if (matched != null)
+        {
+            cl.Tier = matched.Name;
+        }
         await _db.SaveChangesAsync(ct);
         return cl;
+    }
+
+    public async Task<IReadOnlyList<LoyaltyTierDefinition>> GetTiersAsync(string organizationId, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        return await _db.Set<LoyaltyTierDefinition>().AsNoTracking().OrderByDescending(t => t.Priority).ThenBy(t => t.MinPoints).ToListAsync(ct);
+    }
+
+    public async Task<LoyaltyTierDefinition> CreateOrUpdateTierAsync(string organizationId, LoyaltyTierDefinition tier, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var existing = await _db.Set<LoyaltyTierDefinition>().FirstOrDefaultAsync(t => t.Id == tier.Id || t.Name == tier.Name, ct);
+        if (existing == null)
+        {
+            _db.Set<LoyaltyTierDefinition>().Add(tier);
+        }
+        else
+        {
+            existing.MinPoints = tier.MinPoints;
+            existing.MaxPoints = tier.MaxPoints;
+            existing.DiscountPercent = tier.DiscountPercent;
+            existing.Priority = tier.Priority;
+        }
+        await _db.SaveChangesAsync(ct);
+        return existing ?? tier;
     }
 }
 

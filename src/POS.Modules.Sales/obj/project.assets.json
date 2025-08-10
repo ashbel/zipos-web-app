@@ -1639,6 +1639,20 @@
           "bin/placeholder/POS.Infrastructure.dll": {}
         }
       },
+      "POS.Modules.Inventory/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/POS.Modules.Inventory.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/POS.Modules.Inventory.dll": {}
+        }
+      },
       "POS.Shared/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -4134,6 +4148,11 @@
       "path": "../POS.Infrastructure/POS.Infrastructure.csproj",
       "msbuildProject": "../POS.Infrastructure/POS.Infrastructure.csproj"
     },
+    "POS.Modules.Inventory/1.0.0": {
+      "type": "project",
+      "path": "../POS.Modules.Inventory/POS.Modules.Inventory.csproj",
+      "msbuildProject": "../POS.Modules.Inventory/POS.Modules.Inventory.csproj"
+    },
     "POS.Shared/1.0.0": {
       "type": "project",
       "path": "../POS.Shared/POS.Shared.csproj",
@@ -4143,6 +4162,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "POS.Infrastructure >= 1.0.0",
+      "POS.Modules.Inventory >= 1.0.0",
       "POS.Shared >= 1.0.0"
     ]
   },
@@ -4180,6 +4200,9 @@
           "projectReferences": {
             "C:\\source\\repos\\zipos-web-app\\src\\POS.Infrastructure\\POS.Infrastructure.csproj": {
               "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Infrastructure\\POS.Infrastructure.csproj"
+            },
+            "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Inventory\\POS.Modules.Inventory.csproj": {
+              "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Inventory\\POS.Modules.Inventory.csproj"
             },
             "C:\\source\\repos\\zipos-web-app\\src\\POS.Shared\\POS.Shared.csproj": {
               "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Shared\\POS.Shared.csproj"
