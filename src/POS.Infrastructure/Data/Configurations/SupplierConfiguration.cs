@@ -79,3 +79,47 @@ public class GoodsReceiptLineConfiguration : IEntityTypeConfiguration<GoodsRecei
     }
 }
 
+public class PurchaseReturnConfiguration : IEntityTypeConfiguration<PurchaseReturn>
+{
+    public void Configure(EntityTypeBuilder<PurchaseReturn> builder)
+    {
+        builder.ToTable("purchase_returns");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.SupplierId).IsRequired();
+        builder.Property(x => x.BranchId).IsRequired();
+        builder.Property(x => x.Reason).HasMaxLength(200);
+        builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Submitted");
+        builder.Property(x => x.CreatedBy).HasMaxLength(100);
+        builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
+        builder.HasIndex(x => new { x.SupplierId, x.Status });
+    }
+}
+
+public class PurchaseReturnLineConfiguration : IEntityTypeConfiguration<PurchaseReturnLine>
+{
+    public void Configure(EntityTypeBuilder<PurchaseReturnLine> builder)
+    {
+        builder.ToTable("purchase_return_lines");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.PurchaseReturnId).IsRequired();
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.Quantity).HasPrecision(18, 3);
+        builder.Property(x => x.UnitCost).HasPrecision(18, 4);
+        builder.HasIndex(x => x.PurchaseReturnId);
+    }
+}
+
+public class SupplierProductPriceConfiguration : IEntityTypeConfiguration<SupplierProductPrice>
+{
+    public void Configure(EntityTypeBuilder<SupplierProductPrice> builder)
+    {
+        builder.ToTable("supplier_product_prices");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.SupplierId).IsRequired();
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.LastPrice).HasPrecision(18, 4);
+        builder.Property(x => x.LastUpdated).HasDefaultValueSql("now()");
+        builder.HasIndex(x => new { x.SupplierId, x.ProductId }).IsUnique();
+    }
+}
+

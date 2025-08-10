@@ -45,3 +45,29 @@ public class GoodsReceiptLine : TenantEntity
     public decimal UnitCost { get; set; }
 }
 
+public class PurchaseReturn : TenantEntity
+{
+    public string SupplierId { get; set; } = string.Empty;
+    public string BranchId { get; set; } = string.Empty;
+    public string Reason { get; set; } = string.Empty;
+    public string Status { get; set; } = "Submitted"; // Submitted, Approved, Closed
+    public string CreatedBy { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}
+
+public class PurchaseReturnLine : TenantEntity
+{
+    public string PurchaseReturnId { get; set; } = string.Empty;
+    public string ProductId { get; set; } = string.Empty;
+    public decimal Quantity { get; set; }
+    public decimal UnitCost { get; set; }
+}
+
+public class SupplierProductPrice : TenantEntity
+{
+    public string SupplierId { get; set; } = string.Empty;
+    public string ProductId { get; set; } = string.Empty;
+    public decimal LastPrice { get; set; }
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
+}
+
