@@ -37,6 +37,16 @@ public class InventoryService : IInventoryService
         item.CurrentStock += request.QuantityDelta;
         item.LastUpdated = DateTime.UtcNow;
         await _db.SaveChangesAsync(ct);
+        // Log stock movement
+        _db.Set<StockMovement>().Add(new StockMovement
+        {
+            ProductId = request.ProductId,
+            BranchId = request.BranchId,
+            QuantityDelta = request.QuantityDelta,
+            Reason = request.Reason,
+            PerformedAt = DateTime.UtcNow
+        });
+        await _db.SaveChangesAsync(ct);
         return item;
     }
 

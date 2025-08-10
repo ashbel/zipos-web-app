@@ -16,6 +16,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Description).HasMaxLength(1000);
         builder.Property(x => x.BasePrice).HasPrecision(18, 2);
         builder.Property(x => x.Cost).HasPrecision(18, 2);
+        builder.Property(x => x.CategoryId).HasMaxLength(50);
+        builder.Property(x => x.Attributes);
+        builder.Property(x => x.ImageUrl).HasMaxLength(1000);
         builder.HasIndex(x => x.SKU).IsUnique();
         builder.HasIndex(x => x.Barcode).IsUnique();
         builder.HasIndex(x => x.Name);
@@ -36,6 +39,36 @@ public class InventoryItemConfiguration : IEntityTypeConfiguration<InventoryItem
         builder.Property(x => x.LastPurchasePrice).HasPrecision(18, 4);
         builder.Property(x => x.LastUpdated).HasDefaultValueSql("now()");
         builder.HasIndex(x => new { x.ProductId, x.BranchId }).IsUnique();
+    }
+}
+
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+{
+    public void Configure(EntityTypeBuilder<Category> builder)
+    {
+        builder.ToTable("categories");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name).HasMaxLength(200).IsRequired();
+        builder.Property(x => x.Code).HasMaxLength(100).IsRequired();
+        builder.HasIndex(x => x.Name);
+        builder.HasIndex(x => x.Code).IsUnique();
+    }
+}
+
+public class StockMovementConfiguration : IEntityTypeConfiguration<StockMovement>
+{
+    public void Configure(EntityTypeBuilder<StockMovement> builder)
+    {
+        builder.ToTable("stock_movements");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.BranchId).IsRequired();
+        builder.Property(x => x.QuantityDelta).HasPrecision(18, 3);
+        builder.Property(x => x.Reason).HasMaxLength(200);
+        builder.Property(x => x.ReferenceId).HasMaxLength(100);
+        builder.Property(x => x.PerformedBy).HasMaxLength(100);
+        builder.Property(x => x.PerformedAt).HasDefaultValueSql("now()");
+        builder.HasIndex(x => new { x.ProductId, x.BranchId, x.PerformedAt });
     }
 }
 

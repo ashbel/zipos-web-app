@@ -92,15 +92,15 @@
     - [x] Create Product entity
     - [x] Implement product CRUD operations (API + service)
     - [x] Add barcode and SKU management (unique indexes)
-    - [ ] Add categories and attributes
-    - [ ] Image support
+    - [x] Add categories and attributes (basic fields)
+    - [x] Image support (URL field)
     - [ ] Write unit tests for product operations
     - _Requirements: 3.1, 3.5_
 
   - [ ] 5.2 Implement inventory tracking system
     - [x] Create InventoryItem entity for multi-branch stock
     - [x] Implement inventory read and stock adjustment (API + service)
-    - [ ] Implement stock movement tracking and audit trail
+    - [x] Implement stock movement tracking and audit trail (basic)
     - [ ] Add reorder level monitoring and alerts
     - [ ] Write integration tests for inventory operations
     - _Requirements: 3.2, 3.3, 3.4_
