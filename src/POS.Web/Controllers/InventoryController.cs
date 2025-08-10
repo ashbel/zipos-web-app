@@ -32,6 +32,22 @@ public class InventoryController : ControllerBase
         return Ok(item);
     }
 
+    [HttpPost("adjustments")]
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> RequestAdjustment([FromQuery] string organizationId, [FromBody] RequestAdjustmentRequest request, CancellationToken ct)
+    {
+        var adj = await _inventoryService.RequestAdjustmentAsync(organizationId, request, ct);
+        return Ok(adj);
+    }
+
+    [HttpPost("adjustments/{id}/approve")]
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> ApproveAdjustment([FromQuery] string organizationId, [FromRoute] string id, [FromQuery] string approvedBy, CancellationToken ct)
+    {
+        var ok = await _inventoryService.ApproveAdjustmentAsync(organizationId, id, approvedBy, ct);
+        return ok ? NoContent() : NotFound();
+    }
+
     [HttpGet("alerts")]
     [Authorize(Policy = "CanManageUsers")] // placeholder policy
     public async Task<IActionResult> Alerts([FromQuery] string organizationId, CancellationToken ct)

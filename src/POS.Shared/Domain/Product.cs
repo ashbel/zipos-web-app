@@ -51,3 +51,16 @@ public class StockMovement : TenantEntity
     public DateTime PerformedAt { get; set; } = DateTime.UtcNow;
 }
 
+public class StockAdjustment : TenantEntity
+{
+    public string ProductId { get; set; } = string.Empty;
+    public string BranchId { get; set; } = string.Empty;
+    public decimal QuantityDelta { get; set; }
+    public string Reason { get; set; } = string.Empty; // e.g., Stocktake variance, Damage, Correction
+    public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+    public string RequestedBy { get; set; } = string.Empty;
+    public DateTime RequestedAt { get; set; } = DateTime.UtcNow;
+    public string? ApprovedBy { get; set; }
+    public DateTime? ApprovedAt { get; set; }
+}
+

@@ -106,10 +106,10 @@
     - _Requirements: 3.2, 3.3, 3.4_
 
   - [ ] 5.3 Add stock adjustment functionality
-    - Implement stock adjustment operations
-    - Add stocktaking support with variance reporting
-    - Create approval workflow for adjustments
-    - Write unit tests for stock adjustments
+    - [x] Implement stock adjustment operations (request + approve + apply)
+    - [ ] Add stocktaking support with variance reporting
+    - [x] Create approval workflow for adjustments
+    - [ ] Write unit tests for stock adjustments
     - _Requirements: 6.1, 6.3, 6.4_
 
 - [ ] 6. Sales and Checkout Module

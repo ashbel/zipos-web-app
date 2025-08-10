@@ -72,5 +72,37 @@ public class InventoryService : IInventoryService
         await _db.SaveChangesAsync(ct);
         return true;
     }
+
+    public async Task<StockAdjustment> RequestAdjustmentAsync(string organizationId, RequestAdjustmentRequest request, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var adj = new StockAdjustment
+        {
+            ProductId = request.ProductId,
+            BranchId = request.BranchId,
+            QuantityDelta = request.QuantityDelta,
+            Reason = request.Reason,
+            RequestedBy = request.RequestedBy,
+            Status = "Pending",
+            RequestedAt = DateTime.UtcNow
+        };
+        _db.Set<StockAdjustment>().Add(adj);
+        await _db.SaveChangesAsync(ct);
+        return adj;
+    }
+
+    public async Task<bool> ApproveAdjustmentAsync(string organizationId, string adjustmentId, string approvedBy, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var adj = await _db.Set<StockAdjustment>().FirstOrDefaultAsync(a => a.Id == adjustmentId, ct);
+        if (adj == null || adj.Status != "Pending") return false;
+        // Apply stock change
+        await AdjustStockAsync(organizationId, new AdjustStockRequest(adj.ProductId, adj.BranchId, adj.QuantityDelta, $"Adjustment: {adj.Reason}"), ct);
+        adj.Status = "Approved";
+        adj.ApprovedBy = approvedBy;
+        adj.ApprovedAt = DateTime.UtcNow;
+        await _db.SaveChangesAsync(ct);
+        return true;
+    }
 }
 

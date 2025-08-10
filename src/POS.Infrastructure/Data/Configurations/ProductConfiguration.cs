@@ -88,3 +88,22 @@ public class StockAlertConfiguration : IEntityTypeConfiguration<StockAlert>
     }
 }
 
+public class StockAdjustmentConfiguration : IEntityTypeConfiguration<StockAdjustment>
+{
+    public void Configure(EntityTypeBuilder<StockAdjustment> builder)
+    {
+        builder.ToTable("stock_adjustments");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.BranchId).IsRequired();
+        builder.Property(x => x.QuantityDelta).HasPrecision(18, 3);
+        builder.Property(x => x.Reason).HasMaxLength(200);
+        builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Pending");
+        builder.Property(x => x.RequestedBy).HasMaxLength(100);
+        builder.Property(x => x.ApprovedBy).HasMaxLength(100);
+        builder.Property(x => x.RequestedAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.ApprovedAt);
+        builder.HasIndex(x => new { x.ProductId, x.BranchId, x.Status });
+    }
+}
+
