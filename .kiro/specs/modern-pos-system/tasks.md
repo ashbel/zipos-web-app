@@ -18,6 +18,10 @@
   - _Requirements: All modules foundation_
 
 - [ ] 2. Database Foundation and Multi-Tenancy
+
+
+
+
   - Design and implement database schema with multi-tenant support
   - Create base entities with OrganizationId for tenant isolation
   - Implement Entity Framework configurations and migrations

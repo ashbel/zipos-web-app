@@ -10,7 +10,7 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
 {
     public void Configure(EntityTypeBuilder<Organization> builder)
     {
-        builder.ToTable("Organizations");
+        builder.ToTable("organizations");
         
         builder.HasKey(x => x.Id);
         
@@ -42,7 +42,6 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
         builder.HasIndex(x => x.Name);
         builder.HasIndex(x => x.ContactEmail);
         
-        // Note: No relationships to Branches and Users since they exist in separate tenant schemas
-        // Schema-based multi-tenancy provides natural isolation without foreign key relationships
+        // Note: No cross-database relationships to Branches and Users; isolation is at database level
     }
 }

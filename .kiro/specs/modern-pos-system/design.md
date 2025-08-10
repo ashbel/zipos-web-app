@@ -416,44 +416,36 @@ public class SaleItem
 }
 ```
 
-### Database Schema Design
+### Database Design and Multi-Tenancy
 
-**Multi-Tenancy Strategy: Single Database, Separate Schemas**
-- Each organization gets its own PostgreSQL schema (e.g., `org_12345`)
-- Complete data isolation between tenants at the schema level
-- Shared system tables in the `public` schema for global configuration
-- Dynamic schema resolution based on tenant context
-- Better performance than row-level security (no OrganizationId filtering needed)
-- Easier data management, backup, and migration per tenant
-- Natural boundary for future microservices extraction
+**Multi-Tenancy Strategy: Separate Database per Tenant**
+- Each organization has its own PostgreSQL database (e.g., `modernpos_org_12345`)
+- Control-plane database `modernpos_control` stores tenant registry and connection metadata
+- Dynamic connection resolution at request start based on tenant context
+- Strong isolation, per-tenant scaling, and region placement
 
-**Schema Structure:**
+**Topology:**
 ```
-Database: modernpos
-├── public (shared system data)
+PostgreSQL Cluster(s)
+├── modernpos_control (shared control-plane)
 │   ├── organizations
-│   ├── system_settings
-│   ├── permissions
+│   ├── tenant_connection_strings
 │   └── audit_logs
-├── org_12345 (tenant-specific schema)
+├── modernpos_org_12345 (tenant DB)
 │   ├── branches
 │   ├── users
 │   ├── products
 │   ├── sales
 │   ├── inventory
 │   └── customers
-└── org_67890 (another tenant schema)
-    ├── branches
-    ├── users
-    ├── products
+└── modernpos_org_67890 (tenant DB)
     └── ...
 ```
 
 **Indexing Strategy:**
-- Standard indexes within each tenant schema (no need for OrganizationId filtering)
-- Full-text search indexes for product and customer search per schema
-- Time-series indexes for sales and inventory movements per schema
-- Cross-schema indexes in public schema for system-wide queries
+- Standard indexes per tenant database
+- Optional per-tenant full-text and analytics indexes
+- System-wide analytics via ETL into a shared warehouse
 
 ## Error Handling
 

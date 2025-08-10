@@ -14,9 +14,19 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // Database
-        services.AddDbContext<POSDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        // Control-plane and tenant-aware database services
+        services.AddScoped<ITenantConnectionResolver, TenantConnectionResolver>();
+        services.AddScoped<ITenantMetadataStore, ControlPlaneTenantMetadataStore>();
+        services.AddDbContext<ControlPlaneDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("ControlPlaneConnection")
+                ?? configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<POSDbContext>((provider, options) =>
+        {
+            var resolver = provider.GetRequiredService<ITenantConnectionResolver>();
+            var tenantContext = provider.GetRequiredService<ITenantContext>();
+            var connectionString = resolver.GetConnectionString(tenantContext.OrganizationId);
+            options.UseNpgsql(connectionString);
+        });
 
         // Unit of Work
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<POSDbContext>());
@@ -31,8 +41,8 @@ public static class DependencyInjection
         // Tenant Context
         services.AddScoped<ITenantContext, TenantContext>();
         
-        // Schema Management
-        services.AddScoped<ISchemaService, SchemaService>();
+        // Schema Management (deprecated) → Database provisioning service could replace this
+        // services.AddScoped<ISchemaService, SchemaService>();
 
         // Caching
         services.AddStackExchangeRedisCache(options =>
@@ -44,7 +54,10 @@ public static class DependencyInjection
         // Background Jobs
         services.AddHangfire(config =>
         {
-            config.UsePostgreSqlStorage(configuration.GetConnectionString("DefaultConnection"));
+            // Use control-plane DB for background jobs to be tenant-agnostic
+            var hangfireConn = configuration.GetConnectionString("ControlPlaneConnection")
+                               ?? configuration.GetConnectionString("DefaultConnection");
+            config.UsePostgreSqlStorage(hangfireConn);
         });
         services.AddHangfireServer();
         services.AddScoped<IBackgroundJobService, HangfireBackgroundJobService>();

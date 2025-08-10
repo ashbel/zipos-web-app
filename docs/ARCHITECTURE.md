@@ -7,7 +7,7 @@ The Modern POS System is built using a **Modular Monolith** architecture pattern
 - **Rapid Development**: Single deployable unit with shared infrastructure
 - **Clear Boundaries**: Well-defined module interfaces and contracts
 - **Future Flexibility**: Easy extraction to microservices when needed
-- **Operational Simplicity**: Single database and deployment process
+- **Operational Simplicity**: Automated per-tenant database provisioning and standardized deployment process
 
 ## 🎯 Architectural Principles
 
@@ -117,18 +117,18 @@ Module A → Domain Event → Event Bus → Module B Event Handler → Side Effe
 ### 3. Multi-Tenant Data Access
 
 ```
-Request → Tenant Context → Repository → Filtered Query → Database
+Request → Tenant Context → Tenant DB Resolution → Repository → Tenant Database
 ```
 
 ## 🗄️ Data Architecture
 
 ### Database Design Principles
 
-1. **Single Database**: All modules share one PostgreSQL database
-2. **Schema Separation**: Each module has its own schema namespace
-3. **Shared Tables**: Common entities (Users, Organizations) in shared schema
-4. **Soft Deletes**: Logical deletion with audit trail
-5. **Multi-Tenancy**: Row-level security with organization filtering
+1. **Per-Tenant Databases**: Each organization has its own PostgreSQL database
+2. **Control-Plane Database**: Shared `modernpos_control` stores tenant registry and connection metadata
+3. **Soft Deletes**: Logical deletion with audit trail (per tenant DB)
+4. **Operational Automation**: Provisioning, migrations, and seeding automated per tenant
+5. **Multi-Tenancy**: Database-per-tenant isolation with dynamic connection resolution
 
 ### Entity Relationships
 
@@ -145,44 +145,38 @@ Organization (1) ──── (N) Branch
 
 ### Data Isolation Strategy
 
-**Multi-Tenancy: Single Database, Separate Schemas**
+**Multi-Tenancy: Separate Database per Tenant**
 
-- **Organization Level**: Complete data isolation using separate PostgreSQL schemas
-- **Schema Naming**: Each organization gets a dedicated schema (e.g., `org_12345`)
-- **Shared Data**: System-wide data (organizations, permissions) in `public` schema
-- **Branch Level**: Branch-level filtering within organization schemas
-- **User Level**: Role-based access control within organization schemas
+- **Organization Level**: Complete data isolation using dedicated databases per tenant
+- **Database Naming**: Each organization gets its own database (e.g., `modernpos_org_12345`)
+- **Control-Plane**: Shared database `modernpos_control` holds tenant registry and connection metadata
+- **Branch Level**: Branch-level filtering within each tenant database
+- **User Level**: Role-based access control within each tenant database
 
-**Schema Architecture:**
+**Topology:**
 ```
-PostgreSQL Database: modernpos
-├── public (System Schema)
-│   ├── organizations          # Organization registry
-│   ├── system_permissions     # Global permissions
-│   ├── system_settings        # System configuration
-│   └── audit_logs            # Cross-tenant audit trail
-│
-├── org_12345 (Tenant Schema)
-│   ├── branches              # Organization branches
-│   ├── users                 # Organization users
-│   ├── roles                 # Organization roles
-│   ├── products              # Product catalog
-│   ├── inventory             # Stock levels
-│   ├── sales                 # Transaction data
-│   ├── customers             # Customer data
-│   └── ...                   # Other tenant data
-│
-└── org_67890 (Another Tenant Schema)
-    └── ... (same structure)
+PostgreSQL Cluster(s)
+├── modernpos_control (Control Plane)
+│   ├── organizations
+│   ├── tenant_connection_strings
+│   └── audit_logs
+├── modernpos_org_12345 (Tenant DB)
+│   ├── branches
+│   ├── users
+│   ├── roles
+│   ├── products
+│   ├── inventory
+│   ├── sales
+│   └── customers
+└── modernpos_org_67890 (Tenant DB)
+    └── ...
 ```
 
-**Benefits of Schema-Based Multi-Tenancy:**
-- **Complete Data Isolation**: Physical separation at database schema level
-- **Better Performance**: No need for OrganizationId filtering in queries
-- **Easier Maintenance**: Schema-level operations (backup, restore, migration)
-- **Scalability**: Each tenant can have different indexing strategies
-- **Security**: Natural boundary prevents cross-tenant data access
-- **Future-Proof**: Easy extraction to separate databases for microservices
+**Benefits of Database-Per-Tenant:**
+- **Strong Isolation**: Physical separation at database level
+- **Performance Isolation**: Eliminate noisy neighbors; scale hot tenants independently
+- **Operational Flexibility**: Per-tenant backup/restore, DR, and region placement
+- **Customization**: Divergent indexes and extensions per premium tenants
 
 ## 🔧 Infrastructure Components
 

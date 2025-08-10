@@ -204,7 +204,7 @@ Each module is self-contained and implements the `IModule` interface for depende
 
 ### 🏗️ Technical Documentation
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - System architecture and design patterns
-- **[Multi-Tenancy Guide](docs/MULTI-TENANCY.md)** - Schema-based multi-tenancy implementation
+- **[Multi-Tenancy Guide](docs/MULTI-TENANCY.md)** - Database-per-tenant multi-tenancy implementation
 - **[Technology Stack](docs/TECH-STACK.md)** - Detailed technology choices and rationale
 - **[API Documentation](docs/api.md)** - REST API reference (coming soon)
 - **[Deployment Guide](docs/deployment.md)** - Production deployment instructions (coming soon)

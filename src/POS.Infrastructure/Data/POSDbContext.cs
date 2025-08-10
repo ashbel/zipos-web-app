@@ -31,19 +31,13 @@ public class POSDbContext : DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        // Set default schema based on tenant context
-        var schema = GetSchemaForTenant();
-        if (!string.IsNullOrEmpty(schema))
-        {
-            modelBuilder.HasDefaultSchema(schema);
-        }
-        
+        // Database-per-tenant: no default schema switching
+
         // Apply configurations from all modules
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(POSDbContext).Assembly);
         
-        // Configure schema-specific entities
-        ConfigureSchemaSpecificEntities(modelBuilder, schema);
+        // Map system tables (control-plane) when no tenant is set
+        ConfigureEntityTables(modelBuilder);
         
         // Global query filters for soft delete only (no tenant filtering needed with schemas)
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -57,33 +51,17 @@ public class POSDbContext : DbContext, IUnitOfWork
         }
     }
 
-    private string GetSchemaForTenant()
+    private void ConfigureEntityTables(ModelBuilder modelBuilder)
     {
-        var organizationId = _tenantContext.OrganizationId;
-        if (string.IsNullOrEmpty(organizationId))
-        {
-            return "public"; // Default to public schema for system operations
-        }
-        
-        return $"org_{organizationId}";
-    }
-
-    private void ConfigureSchemaSpecificEntities(ModelBuilder modelBuilder, string schema)
-    {
-        // System entities always go to public schema
-        modelBuilder.Entity<Organization>().ToTable("organizations", "public");
-        modelBuilder.Entity<Permission>().ToTable("permissions", "public");
-        
-        // Tenant entities go to organization-specific schema
-        if (!string.IsNullOrEmpty(schema) && schema != "public")
-        {
-            modelBuilder.Entity<Branch>().ToTable("branches", schema);
-            modelBuilder.Entity<User>().ToTable("users", schema);
-            modelBuilder.Entity<Role>().ToTable("roles", schema);
-            modelBuilder.Entity<UserRole>().ToTable("user_roles", schema);
-            modelBuilder.Entity<RolePermission>().ToTable("role_permissions", schema);
-            modelBuilder.Entity<UserBranch>().ToTable("user_branches", schema);
-        }
+        // Database-per-tenant: map to unqualified table names; each tenant DB has its own tables
+        modelBuilder.Entity<Organization>().ToTable("organizations");
+        modelBuilder.Entity<Permission>().ToTable("permissions");
+        modelBuilder.Entity<Branch>().ToTable("branches");
+        modelBuilder.Entity<User>().ToTable("users");
+        modelBuilder.Entity<Role>().ToTable("roles");
+        modelBuilder.Entity<UserRole>().ToTable("user_roles");
+        modelBuilder.Entity<RolePermission>().ToTable("role_permissions");
+        modelBuilder.Entity<UserBranch>().ToTable("user_branches");
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -147,9 +125,7 @@ public class POSDbContext : DbContext, IUnitOfWork
 
     private LambdaExpression GetTenantFilter(Type entityType)
     {
-        // With schema-based multi-tenancy, we don't need row-level filtering
-        // since each tenant has its own schema. This method can return null
-        // or a simple true condition since schema isolation handles tenant separation.
+        // Database-per-tenant: no row-level tenant filtering required
         var parameter = Expression.Parameter(entityType, "e");
         var trueConstant = Expression.Constant(true);
         return Expression.Lambda(trueConstant, parameter);

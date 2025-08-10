@@ -4,6 +4,7 @@ using POS.Shared.Infrastructure;
 
 namespace POS.Infrastructure.Services;
 
+// Deprecated in database-per-tenant architecture. Kept temporarily for backward compatibility.
 public class SchemaService : ISchemaService
 {
     private readonly POSDbContext _context;

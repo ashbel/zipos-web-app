@@ -7,6 +7,7 @@ public static class SeedData
 {
     public static async Task SeedAsync(POSDbContext context)
     {
+        // Ensure the current tenant database is migrated
         await context.Database.MigrateAsync();
         
         // Seed default permissions

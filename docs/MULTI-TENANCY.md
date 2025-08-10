@@ -1,383 +1,194 @@
-# Multi-Tenancy Architecture: Single Database, Separate Schemas
+# Multi-Tenancy Architecture: Separate Database per Tenant
 
 ## Overview
 
-The Modern POS System implements a **Single Database, Separate Schemas** multi-tenancy pattern, providing complete data isolation between organizations while maintaining operational simplicity.
+The Modern POS System implements a **Separate Database per Tenant** pattern. Each organization (tenant) is provisioned with its own dedicated database instance. A small, shared control-plane database stores tenant metadata and connection information.
 
 ## Architecture Decision
 
-### Why Schema-Based Multi-Tenancy?
+### Why Database-per-Tenant?
 
-We chose schema-based multi-tenancy over other approaches for the following reasons:
+#### ✅ Advantages
 
-#### ✅ **Advantages**
+1. **Strongest Isolation and Security**
+   - Complete physical isolation of data per tenant
+   - Minimizes risk of cross-tenant data access
+   - Natural compliance boundary (PII segregation, legal holds)
 
-1. **Complete Data Isolation**
-   - Physical separation at the database schema level
-   - No risk of cross-tenant data access
-   - Natural security boundary
+2. **Performance and Scalability Isolation**
+   - No noisy-neighbor contention across tenants
+   - Scale up/down or move heavy tenants independently
+   - Per-tenant read replicas and performance tuning
 
-2. **Better Performance**
-   - No need for `OrganizationId` filtering in queries
-   - Simpler query plans and better index utilization
-   - Reduced query complexity
+3. **Operations and Compliance Flexibility**
+   - Per-tenant backup/restore, retention, and DR plans
+   - Region-specific placement for data residency
+   - Tenant-specific DB extensions and settings
 
-3. **Easier Data Management**
-   - Schema-level operations (backup, restore, migration)
-   - Individual tenant data can be managed independently
-   - Easier compliance with data residency requirements
+4. **Customization Readiness**
+   - Safe to diverge schema/indexes for premium tenants
+   - Simplifies future migration to tenant-dedicated services
 
-4. **Scalability**
-   - Each tenant can have different indexing strategies
-   - Schema-specific optimizations possible
-   - Better resource isolation
+#### ⚠️ Trade-offs
 
-5. **Future-Proof**
-   - Easy extraction to separate databases for microservices
-   - Natural boundary for tenant-specific customizations
-   - Simplified data migration strategies
+1. **Operational Overhead**
+   - Provisioning, lifecycle, and cost management for many databases
+   - Requires automation for creation, migration, seeding, and deletion
 
-#### ⚠️ **Trade-offs**
+2. **Migrations & Version Skew**
+   - Rolling out schema changes per tenant
+   - Handling tenants temporarily on different versions
 
-1. **Schema Management Complexity**
-   - Need to manage multiple schemas
-   - Schema creation/deletion operations required
-   - Migration complexity across multiple schemas
+3. **Connection & Resource Management**
+   - More connection pools (one per active tenant)
+   - Higher aggregate idle resource footprint
 
-2. **Database Connection Overhead**
-   - Need to switch schema context per request
-   - Slightly more complex connection management
-
-3. **Cross-Tenant Queries**
-   - More complex to implement system-wide analytics
-   - Requires explicit cross-schema queries
+4. **Cross-Tenant Analytics**
+   - Requires aggregating data into a warehouse or using fan-out queries
 
 ## Implementation Details
 
-### Schema Structure
+### Topology
 
 ```
-PostgreSQL Database: modernpos
-├── public (System Schema)
-│   ├── organizations          # Organization registry
-│   ├── system_permissions     # Global permissions
-│   ├── system_settings        # System configuration
-│   └── audit_logs            # Cross-tenant audit trail
+PostgreSQL Cluster(s)
+├── modernpos_control (Control Plane DB)
+│   ├── organizations              # Tenant registry
+│   ├── tenant_connection_strings  # Encrypted DSNs per tenant
+│   └── audit_logs                 # System-wide operations audit
 │
-├── org_12345 (Tenant Schema)
-│   ├── branches              # Organization branches
-│   ├── users                 # Organization users
-│   ├── roles                 # Organization roles
-│   ├── products              # Product catalog
-│   ├── inventory             # Stock levels
-│   ├── sales                 # Transaction data
-│   ├── customers             # Customer data
-│   └── ...                   # Other tenant data
+├── modernpos_org_12345 (Tenant DB)
+│   ├── branches
+│   ├── users
+│   ├── roles
+│   ├── products
+│   ├── inventory
+│   ├── sales
+│   ├── customers
+│   └── …
 │
-└── org_67890 (Another Tenant Schema)
-    └── ... (same structure)
+└── modernpos_org_67890 (Another Tenant DB)
+    └── … (same structure)
 ```
 
-### Schema Naming Convention
+### Naming Convention
 
-- **System Schema**: `public`
-- **Tenant Schema**: `org_{organizationId}`
-- **Example**: Organization with ID "12345" gets schema `org_12345`
+- Control-plane database: `modernpos_control`
+- Tenant database: `modernpos_org_{organizationId}`
 
-### Dynamic Schema Resolution
+### Dynamic Connection Resolution
 
-The system automatically resolves the correct schema based on the tenant context:
+At the start of each request, resolve the active tenant and fetch its connection string from the control-plane database or a secure secret store. Create the `DbContext` with the tenant-specific connection string.
 
 ```csharp
-public class POSDbContext : DbContext
+public interface ITenantConnectionResolver
 {
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    Task<string> GetConnectionStringAsync(string organizationId, CancellationToken ct = default);
+}
+
+public class POSDbContextFactory : IDbContextFactory<POSDbContext>
+{
+    private readonly ITenantConnectionResolver _resolver;
+    private readonly ITenantContext _tenantContext;
+
+    public POSDbContextFactory(ITenantConnectionResolver resolver, ITenantContext tenantContext)
     {
-        // Set default schema based on tenant context
-        var schema = GetSchemaForTenant();
-        if (!string.IsNullOrEmpty(schema))
-        {
-            modelBuilder.HasDefaultSchema(schema);
-        }
-        
-        // Configure schema-specific entities
-        ConfigureSchemaSpecificEntities(modelBuilder, schema);
+        _resolver = resolver;
+        _tenantContext = tenantContext;
     }
 
-    private string GetSchemaForTenant()
+    public async Task<POSDbContext> CreateDbContextAsync(CancellationToken ct = default)
     {
-        var organizationId = _tenantContext.OrganizationId;
-        return string.IsNullOrEmpty(organizationId) 
-            ? "public" 
-            : $"org_{organizationId}";
+        var organizationId = _tenantContext.OrganizationId
+            ?? throw new InvalidOperationException("Missing tenant context");
+
+        var connectionString = await _resolver.GetConnectionStringAsync(organizationId, ct);
+
+        var options = new DbContextOptionsBuilder<POSDbContext>()
+            .UseNpgsql(connectionString)
+            .EnableSensitiveDataLogging(false)
+            .Options;
+
+        return new POSDbContext(options);
     }
 }
 ```
 
-## Data Model Changes
+### Tenant Lifecycle (Onboarding/Offboarding)
 
-### Removed OrganizationId Fields
+1. **Onboarding**
+   - Create organization record in control-plane DB
+   - Provision dedicated tenant database (name using convention)
+   - Apply EF Core migrations to the tenant DB
+   - Seed default data (admin user, roles, settings)
+   - Store encrypted connection string and metadata
 
-With schema-based isolation, we no longer need `OrganizationId` fields in tenant entities:
+2. **Offboarding**
+   - Export tenant data if requested
+   - Disable access and revoke credentials
+   - Snapshot/backup and delete tenant database as per policy
+   - Remove connection metadata from control-plane
 
-**Before (Row-Level Security):**
-```csharp
-public class User : TenantEntity
-{
-    public string OrganizationId { get; set; } // ❌ No longer needed
-    public string Email { get; set; }
-    // ... other properties
-}
-```
+### Migrations Strategy
 
-**After (Schema-Based):**
-```csharp
-public class User : TenantEntity
-{
-    // OrganizationId removed - schema provides isolation
-    public string Email { get; set; }
-    // ... other properties
-}
-```
+- Single migrations assembly; apply per tenant database
+- Operational job runs migrations for newly onboarded or out-of-date tenants
+- Track per-tenant schema version in each tenant database
 
-### Simplified Queries
+### Connection Pooling
 
-**Before (Row-Level Security):**
-```csharp
-// Had to filter by OrganizationId
-var users = await _context.Users
-    .Where(u => u.OrganizationId == organizationId)
-    .ToListAsync();
-```
-
-**After (Schema-Based):**
-```csharp
-// Schema context automatically isolates data
-var users = await _context.Users.ToListAsync();
-```
-
-## Schema Management
-
-### ISchemaService Interface
-
-```csharp
-public interface ISchemaService
-{
-    Task CreateTenantSchemaAsync(string organizationId, CancellationToken cancellationToken = default);
-    Task DeleteTenantSchemaAsync(string organizationId, CancellationToken cancellationToken = default);
-    Task<bool> SchemaExistsAsync(string organizationId, CancellationToken cancellationToken = default);
-    Task MigrateTenantSchemaAsync(string organizationId, CancellationToken cancellationToken = default);
-    string GetSchemaName(string organizationId);
-}
-```
-
-### Tenant Onboarding Process
-
-1. **Organization Registration**
-   ```csharp
-   // 1. Create organization record in public schema
-   var organization = new Organization { Name = "Acme Corp" };
-   await _organizationRepository.AddAsync(organization);
-   
-   // 2. Create dedicated schema for the organization
-   await _schemaService.CreateTenantSchemaAsync(organization.Id);
-   
-   // 3. Create default admin user in tenant schema
-   using var tenantContext = _tenantContextFactory.CreateContext(organization.Id);
-   var adminUser = new User { Email = "admin@acme.com" };
-   await _userRepository.AddAsync(adminUser);
-   ```
-
-2. **Schema Creation**
-   - Creates schema with naming convention `org_{organizationId}`
-   - Creates all tenant-specific tables
-   - Sets up indexes and constraints
-   - Applies initial data seeding
-
-### Tenant Offboarding Process
-
-1. **Data Export** (if required)
-2. **Schema Deletion**
-   ```csharp
-   await _schemaService.DeleteTenantSchemaAsync(organizationId);
-   ```
-3. **Organization Record Cleanup**
+- Use short-lived contexts and per-request scope
+- Configure max pool size based on expected concurrent tenants per node
+- Cache connection strings securely with expiration
 
 ## Security Considerations
 
-### Schema-Level Security
+1. **Least Privilege**
+   - Prefer per-tenant DB users with access limited to their DB only
+   - Rotate credentials and store in a secret manager (e.g., Azure Key Vault)
 
-1. **Database User Permissions**
-   - Application database user has access to all schemas
-   - Schema isolation enforced at application level
-   - No direct database access for tenants
+2. **Input/Name Validation**
+   - Validate organization IDs and database names against strict patterns
 
-2. **Application-Level Security**
-   - Tenant context validation on every request
-   - Schema switching based on authenticated user's organization
-   - Audit logging for all schema operations
+3. **Audit & Monitoring**
+   - Centralized audit of tenant lifecycle events in control-plane DB
+   - Per-tenant audit logs inside each tenant DB
 
-3. **SQL Injection Prevention**
-   - Schema names validated against whitelist pattern
-   - Parameterized queries where possible
-   - Input sanitization for schema operations
+4. **Network & Compliance**
+   - Optional VNet/service endpoints per large tenant
+   - Region pinning for data residency
 
-### Access Control Flow
+## Migration Path (from Schema-per-Tenant)
 
-```
-User Request → Authentication → Tenant Resolution → Schema Context → Data Access
-```
-
-1. **Authentication**: Verify user identity
-2. **Tenant Resolution**: Determine user's organization
-3. **Schema Context**: Set database schema context
-4. **Data Access**: Execute queries in tenant schema
-
-## Migration Strategy
-
-### From Row-Level Security to Schema-Based
-
-1. **Phase 1: Preparation**
-   - ✅ Update domain models (remove OrganizationId)
-   - ✅ Update Entity Framework configurations
-   - ✅ Implement schema service
-   - ✅ Create new migration
-
-2. **Phase 2: Data Migration** (Future)
-   - Export existing tenant data
-   - Create tenant schemas
-   - Import data into respective schemas
-   - Validate data integrity
-
-3. **Phase 3: Cleanup** (Future)
-   - Remove old OrganizationId columns
-   - Update application logic
-   - Performance testing and optimization
-
-### Database Migration Commands
-
-```bash
-# Create new migration
-dotnet ef migrations add SchemaBasedMultiTenancy
-
-# Apply migration
-dotnet ef database update
-
-# Create tenant schema (via application)
-POST /api/organizations/{id}/schema
-```
+1. Freeze writes per tenant during cutover (or implement dual-write with reconciliation)
+2. Export data from schema `org_{id}`
+3. Create `modernpos_org_{id}` DB and apply migrations
+4. Import data; verify integrity and counts
+5. Update control-plane with tenant connection string
+6. Switch application routing to new DB; decommission old schema
 
 ## Performance Implications
 
-### Query Performance
-
-**Before (Row-Level Security):**
-```sql
--- Every query needed OrganizationId filter
-SELECT * FROM users WHERE organization_id = '12345' AND email = 'user@example.com';
-```
-
-**After (Schema-Based):**
-```sql
--- Direct access within schema context
-SET search_path TO org_12345;
-SELECT * FROM users WHERE email = 'user@example.com';
-```
-
-### Index Strategy
-
-**Before:**
-- Composite indexes: `(organization_id, email)`, `(organization_id, created_at)`
-- Larger index sizes due to organization_id inclusion
-
-**After:**
-- Simple indexes: `(email)`, `(created_at)`
-- Smaller, more efficient indexes per schema
-- Schema-specific optimization possible
+- Isolation removes cross-tenant contention
+- Heavier tenants can be moved to dedicated hardware/cluster
+- Ensure connection pool sizing matches workload per node
 
 ## Monitoring and Observability
 
-### Schema-Level Metrics
+### Control-Plane Metrics
+- Active tenant count, onboard/offboard rates
+- Tenant migration backlog and failures
 
-1. **Schema Count**: Number of active tenant schemas
-2. **Schema Size**: Storage usage per tenant
-3. **Query Performance**: Response times per schema
-4. **Connection Usage**: Database connections per tenant
-
-### Logging Strategy
-
-```csharp
-// Log schema operations
-_logger.LogInformation("Creating schema for organization {OrganizationId}", organizationId);
-
-// Log tenant context switches
-_logger.LogDebug("Switching to schema {SchemaName} for user {UserId}", schemaName, userId);
-```
+### Per-Tenant Metrics
+- Database size and growth
+- Query performance and error rates
+- Connection utilization and timeouts
 
 ## Best Practices
 
-### Development Guidelines
+1. Always resolve tenant before creating `DbContext`
+2. Avoid cross-tenant transactions; use outbox/events for cross-tenant workflows
+3. Keep migrations backward compatible where feasible; roll out gradually
+4. Maintain runbooks for provisioning, restore, and incident response per tenant
 
-1. **Always Use Tenant Context**
-   ```csharp
-   // ✅ Good - Uses tenant context
-   using var scope = _tenantContextFactory.CreateScope(organizationId);
-   var users = await _userRepository.GetAllAsync();
-   
-   // ❌ Bad - Direct schema access
-   var users = await _context.Database.SqlQuery<User>("SELECT * FROM org_12345.users");
-   ```
-
-2. **Schema Name Validation**
-   ```csharp
-   private static bool IsValidSchemaName(string schemaName)
-   {
-       return !string.IsNullOrEmpty(schemaName) && 
-              schemaName.All(c => char.IsLetterOrDigit(c) || c == '_') &&
-              schemaName.StartsWith("org_");
-   }
-   ```
-
-3. **Error Handling**
-   ```csharp
-   try
-   {
-       await _schemaService.CreateTenantSchemaAsync(organizationId);
-   }
-   catch (PostgresException ex) when (ex.SqlState == "42P06") // duplicate_schema
-   {
-       _logger.LogWarning("Schema already exists for organization {OrganizationId}", organizationId);
-   }
-   ```
-
-### Testing Strategy
-
-1. **Unit Tests**: Mock tenant context and schema service
-2. **Integration Tests**: Test with multiple schemas
-3. **Performance Tests**: Validate query performance across schemas
-
-## Future Enhancements
-
-### Planned Improvements
-
-1. **Schema Versioning**
-   - Track schema version per tenant
-   - Support for gradual schema migrations
-   - Rollback capabilities
-
-2. **Cross-Tenant Analytics**
-   - Aggregated reporting across all tenants
-   - System-wide metrics and insights
-   - Compliance reporting
-
-3. **Schema Optimization**
-   - Tenant-specific indexing strategies
-   - Automated performance tuning
-   - Storage optimization
-
-4. **Microservices Migration**
-   - Extract schemas to separate databases
-   - Service-per-tenant architecture
-   - Event-driven synchronization
-
-This schema-based multi-tenancy approach provides a solid foundation for the Modern POS System, balancing data isolation, performance, and operational simplicity while maintaining flexibility for future architectural evolution.
+This database-per-tenant approach maximizes isolation, performance, and compliance flexibility while requiring solid operational automation for provisioning, migrations, and monitoring.
