@@ -9,7 +9,7 @@ public class InventoryModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Inventory services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.IProductService, Services.ProductService>();
+        services.AddScoped<Services.IInventoryService, Services.InventoryService>();
     }
 }

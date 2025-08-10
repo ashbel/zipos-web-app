@@ -89,17 +89,20 @@
 
 - [ ] 5. Product and Inventory Module
   - [ ] 5.1 Implement product management
-    - Create Product entity with categories and attributes
-    - Implement product CRUD operations with image support
-    - Add barcode and SKU management
-    - Write unit tests for product operations
+    - [x] Create Product entity
+    - [x] Implement product CRUD operations (API + service)
+    - [x] Add barcode and SKU management (unique indexes)
+    - [ ] Add categories and attributes
+    - [ ] Image support
+    - [ ] Write unit tests for product operations
     - _Requirements: 3.1, 3.5_
 
   - [ ] 5.2 Implement inventory tracking system
-    - Create InventoryItem entity for multi-branch stock
-    - Implement stock movement tracking and audit trail
-    - Add reorder level monitoring and alerts
-    - Write integration tests for inventory operations
+    - [x] Create InventoryItem entity for multi-branch stock
+    - [x] Implement inventory read and stock adjustment (API + service)
+    - [ ] Implement stock movement tracking and audit trail
+    - [ ] Add reorder level monitoring and alerts
+    - [ ] Write integration tests for inventory operations
     - _Requirements: 3.2, 3.3, 3.4_
 
   - [ ] 5.3 Add stock adjustment functionality
