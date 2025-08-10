@@ -8,7 +8,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Users");
+        builder.ToTable("users");
         
         builder.HasKey(x => x.Id);
         
@@ -44,7 +44,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.ToTable("Roles");
+        builder.ToTable("roles");
         
         builder.HasKey(x => x.Id);
         
@@ -64,7 +64,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 {
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
-        builder.ToTable("Permissions");
+        builder.ToTable("permissions");
         
         builder.HasKey(x => x.Id);
         
@@ -89,7 +89,7 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 {
     public void Configure(EntityTypeBuilder<UserRole> builder)
     {
-        builder.ToTable("UserRoles");
+        builder.ToTable("user_roles");
         
         builder.HasKey(x => x.Id);
         
@@ -116,7 +116,7 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.ToTable("RolePermissions");
+        builder.ToTable("role_permissions");
         
         builder.HasKey(x => x.Id);
         
@@ -143,7 +143,7 @@ public class UserBranchConfiguration : IEntityTypeConfiguration<UserBranch>
 {
     public void Configure(EntityTypeBuilder<UserBranch> builder)
     {
-        builder.ToTable("UserBranches");
+        builder.ToTable("user_branches");
         
         builder.HasKey(x => x.Id);
         

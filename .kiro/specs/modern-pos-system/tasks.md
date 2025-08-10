@@ -19,10 +19,10 @@
 
 - [ ] 2. Database Foundation and Multi-Tenancy (Database-per-Tenant)
 
-- [ ] 2.1 Control-Plane Database
+  - [ ] 2.1 Control-Plane Database
   - [x] Create `ControlPlaneDbContext` with table `tenant_connection_strings`
-  - [ ] Add EF migration for control-plane DB and apply it
-  - [ ] Optional: add minimal `organizations` registry in control-plane
+    - [ ] Add EF migration for control-plane DB and apply it
+    - [ ] Optional: add minimal `organizations` registry in control-plane
   - _Requirements: 2.4_
 
 - [ ] 2.2 Tenant Context & Resolution
@@ -31,15 +31,15 @@
   - [x] Wire resolver and context in DI; ensure `POSDbContext` uses tenant-specific connection
   - _Requirements: 2.4_
 
-- [ ] 2.3 Tenant Database Schema
+  - [ ] 2.3 Tenant Database Schema
   - [x] Update `POSDbContext` to remove schema switching; use unqualified table mappings
-  - [ ] Create/update EF migrations for tenant DB tables (organizations, branches, users, roles, etc.)
+    - [ ] Create/update EF migrations for tenant DB tables (organizations, branches, users, roles, etc.)
   - [x] Ensure soft-delete filters and audit fields are applied
   - _Requirements: 2.1, 2.4_
 
   - [ ] 2.4 Tenant Provisioning & Seeding
     - [x] Implement provisioning service to create tenant DB and apply migrations
-    - [ ] Seed tenant defaults (admin user, roles, settings)
+    - [x] Seed tenant defaults (admin user, roles, settings)
     - [x] Store encrypted tenant connection string in control-plane (read path supports protection)
     - [x] Add health check endpoint to validate tenant connectivity
     - _Requirements: 2.1, 2.4_
