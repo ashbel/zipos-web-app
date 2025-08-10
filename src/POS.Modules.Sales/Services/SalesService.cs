@@ -3,6 +3,7 @@ using POS.Modules.Inventory.Services;
 using POS.Infrastructure.Data;
 using POS.Shared.Domain;
 using POS.Shared.Infrastructure;
+using POS.Modules.Promotions.Services;
 
 namespace POS.Modules.Sales.Services;
 
@@ -11,12 +12,14 @@ public class SalesService : ISalesService
     private readonly POSDbContext _db;
     private readonly ITenantContext _tenantContext;
     private readonly IInventoryService _inventoryService;
+    private readonly IPromotionService _promotionService;
 
-    public SalesService(POSDbContext db, ITenantContext tenantContext, IInventoryService inventoryService)
+    public SalesService(POSDbContext db, ITenantContext tenantContext, IInventoryService inventoryService, IPromotionService promotionService)
     {
         _db = db;
         _tenantContext = tenantContext;
         _inventoryService = inventoryService;
+        _promotionService = promotionService;
     }
 
     public async Task<Cart> CreateCartAsync(string organizationId, string userId, string branchId, CancellationToken ct = default)
@@ -55,6 +58,27 @@ public class SalesService : ISalesService
         var item = await _db.Set<CartItem>().FirstAsync(ci => ci.Id == itemId && ci.CartId == cartId, ct);
         cart.TotalAmount -= item.TotalAmount;
         _db.Set<CartItem>().Remove(item);
+        await _db.SaveChangesAsync(ct);
+        return cart;
+    }
+
+    public async Task<Cart> ApplyPromotionsAsync(string organizationId, string cartId, string? promoCode, string? customerId, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var cart = await _db.Set<Cart>().FirstAsync(c => c.Id == cartId, ct);
+        var items = await _db.Set<CartItem>().Where(i => i.CartId == cartId).ToListAsync(ct);
+        string? customerTier = null;
+        if (!string.IsNullOrWhiteSpace(customerId))
+        {
+            var loyalty = _db.GetService<Modules.Customers.Services.ICustomerLoyaltyService>();
+            if (loyalty != null)
+            {
+                var cl = await loyalty.GetAsync(organizationId, customerId!, ct);
+                customerTier = cl.Tier;
+            }
+        }
+        var applied = await _promotionService.ApplyPromotionsAsync(organizationId, cart.BranchId, items, promoCode, customerTier, ct);
+        cart.TotalAmount = items.Sum(i => i.TotalAmount);
         await _db.SaveChangesAsync(ct);
         return cart;
     }

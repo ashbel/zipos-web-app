@@ -9,7 +9,6 @@ public class PromotionsModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Promotion services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.IPromotionService, Services.PromotionService>();
     }
 }

@@ -34,6 +34,14 @@ public class SalesController : ControllerBase
         return Ok(cart);
     }
 
+    [HttpPost("cart/{cartId}/apply-promotions")]
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> ApplyPromotions([FromQuery] string organizationId, [FromRoute] string cartId, [FromBody] ApplyPromotionsRequest request, CancellationToken ct)
+    {
+        var cart = await _sales.ApplyPromotionsAsync(organizationId, cartId, request.PromoCode, request.CustomerId, ct);
+        return Ok(cart);
+    }
+
     [HttpDelete("cart/{cartId}/items/{itemId}")]
     [Authorize(Policy = "CanManageUsers")] // placeholder policy
     public async Task<IActionResult> RemoveItem([FromQuery] string organizationId, [FromRoute] string cartId, [FromRoute] string itemId, CancellationToken ct)
@@ -52,6 +60,7 @@ public class SalesController : ControllerBase
     }
 
     public record CheckoutRequest(IEnumerable<PaymentRequest> Payments, string? CustomerId);
+    public record ApplyPromotionsRequest(string? PromoCode, string? CustomerId);
 
     [HttpPost("sales/{saleId}/refunds")]
     [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)]

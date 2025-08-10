@@ -353,16 +353,16 @@
 
 - [ ] 20. Promotion and Discount Engine
   - [ ] 20.1 Implement discount system
-    - Create Promotion and Discount entities
-    - Implement discount calculation engine
-    - Add promo code functionality
+    - [x] Create Promotion and Discount entities
+    - [x] Implement discount calculation engine
+    - [x] Add promo code functionality
     - Write unit tests for discount calculations
     - _Requirements: 16.1, 16.3_
 
   - [ ] 20.2 Add advanced promotion features
-    - Implement scheduled promotions
-    - Create BOGO and combo deal support
-    - Add loyalty tier-based discounts
+    - [x] Implement scheduled promotions
+    - [x] Create BOGO and combo deal support
+    - [x] Add loyalty tier-based discounts
     - Write integration tests for promotion engine
     - _Requirements: 16.1, 16.2, 16.4_
 
