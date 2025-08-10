@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("POS.Modules.Inventory")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+631b54900d90a67ad3e489eec2fb0256b842cdf3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1955e16097e84f3bc81e8d771b5171d5b5776537")]
 [assembly: System.Reflection.AssemblyProductAttribute("POS.Modules.Inventory")]
 [assembly: System.Reflection.AssemblyTitleAttribute("POS.Modules.Inventory")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

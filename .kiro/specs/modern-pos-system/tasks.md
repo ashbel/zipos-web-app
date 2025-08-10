@@ -21,7 +21,7 @@
 
   - [ ] 2.1 Control-Plane Database
   - [x] Create `ControlPlaneDbContext` with table `tenant_connection_strings`
-    - [ ] Add EF migration for control-plane DB and apply it
+    - [x] Add EF migration for control-plane DB and apply it
     - [ ] Optional: add minimal `organizations` registry in control-plane
   - _Requirements: 2.4_
 
