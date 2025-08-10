@@ -9,7 +9,6 @@ public class AuthenticationModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Authentication services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.IAuthenticationService, Services.JwtAuthenticationService>();
     }
 }

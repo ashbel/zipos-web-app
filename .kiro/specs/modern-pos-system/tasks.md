@@ -51,24 +51,24 @@
 
 - [ ] 3. Authentication and Authorization Module
   - [ ] 3.1 Implement JWT authentication service
-    - Create User entity and authentication models
-    - Implement JWT token generation and validation
-    - Add refresh token functionality
-    - Write unit tests for authentication logic
+    - [x] Create User entity and authentication models
+    - [x] Implement JWT token generation and validation
+    - [x] Add refresh token functionality
+    - [ ] Write unit tests for authentication logic
     - _Requirements: 1.1, 1.2_
 
   - [ ] 3.2 Implement role-based authorization
-    - Create Role and Permission entities
-    - Implement authorization policies and handlers
-    - Add role assignment and permission checking
-    - Write unit tests for authorization logic
+    - [x] Create Role and Permission entities
+    - [ ] Implement authorization policies and handlers
+    - [ ] Add role assignment and permission checking
+    - [ ] Write unit tests for authorization logic
     - _Requirements: 1.2, 1.3_
 
   - [ ] 3.3 Add user management functionality
-    - Implement user CRUD operations
-    - Add staff assignment to branches
-    - Implement session logging and activity tracking
-    - Write integration tests for user management
+    - [ ] Implement user CRUD operations
+    - [ ] Add staff assignment to branches
+    - [ ] Implement session logging and activity tracking
+    - [ ] Write integration tests for user management
     - _Requirements: 1.4, 1.5_
 
 - [ ] 4. Branch Management Module
