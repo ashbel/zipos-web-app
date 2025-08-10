@@ -43,3 +43,12 @@ public class SaleItem : TenantEntity
     public decimal TotalAmount { get; set; }
 }
 
+public class Payment : TenantEntity
+{
+    public string SaleId { get; set; } = string.Empty;
+    public string Method { get; set; } = string.Empty; // Cash, Card, Mobile, etc.
+    public decimal Amount { get; set; }
+    public string? Reference { get; set; }
+    public string Status { get; set; } = "Captured"; // Captured, Voided, Refunded
+}
+

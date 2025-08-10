@@ -59,7 +59,7 @@ public class SalesService : ISalesService
         return cart;
     }
 
-    public async Task<Sale> CheckoutAsync(string organizationId, string cartId, CancellationToken ct = default)
+    public async Task<Sale> CheckoutAsync(string organizationId, string cartId, IEnumerable<PaymentRequest> payments, CancellationToken ct = default)
     {
         _tenantContext.SetTenant(organizationId);
         var cart = await _db.Set<Cart>().AsNoTracking().FirstAsync(c => c.Id == cartId, ct);
@@ -71,8 +71,8 @@ public class SalesService : ISalesService
             UserId = cart.UserId,
             SubTotal = items.Sum(i => i.UnitPrice * i.Quantity),
             DiscountAmount = items.Sum(i => i.DiscountAmount),
-            TaxAmount = 0, // TBD: tax calculation
-            TotalAmount = items.Sum(i => i.TotalAmount),
+            TaxAmount = CalculateTax(cart.BranchId, items),
+            TotalAmount = items.Sum(i => i.TotalAmount) + CalculateTax(cart.BranchId, items),
             Status = "Completed",
             TransactionDate = DateTime.UtcNow
         };
@@ -97,12 +97,30 @@ public class SalesService : ISalesService
             await _inventoryService.AdjustStockAsync(organizationId, new Modules.Inventory.Services.AdjustStockRequest(i.ProductId, cart.BranchId, -i.Quantity, "Sale checkout"), ct);
         }
 
+        // Record payments (split supported)
+        var paymentsList = payments?.ToList() ?? new List<PaymentRequest>();
+        var paid = paymentsList.Sum(p => p.Amount);
+        if (paid != sale.TotalAmount)
+        {
+            throw new InvalidOperationException("Payment total must equal sale total");
+        }
+        foreach (var p in paymentsList)
+        {
+            _db.Set<Payment>().Add(new Payment { SaleId = sale.Id, Method = p.Method, Amount = p.Amount, Reference = p.Reference, Status = "Captured" });
+        }
+
         // Clear cart
         _db.Set<Cart>().Remove(await _db.Set<Cart>().FirstAsync(c => c.Id == cartId, ct));
         _db.Set<CartItem>().RemoveRange(_db.Set<CartItem>().Where(ci => ci.CartId == cartId));
         await _db.SaveChangesAsync(ct);
 
         return sale;
+    }
+
+    private static decimal CalculateTax(string branchId, List<CartItem> items)
+    {
+        // Placeholder: flat 0% tax. Extend to read branch tax settings and compute
+        return 0m;
     }
 }
 

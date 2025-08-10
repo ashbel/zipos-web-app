@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using POS.Modules.Sales.Services;
+using System.Text;
 
 namespace POS.Web.Controllers;
 
@@ -9,10 +10,12 @@ namespace POS.Web.Controllers;
 public class SalesController : ControllerBase
 {
     private readonly ISalesService _sales;
+    private readonly IReceiptService _receipt;
 
-    public SalesController(ISalesService sales)
+    public SalesController(ISalesService sales, IReceiptService receipt)
     {
         _sales = sales;
+        _receipt = receipt;
     }
 
     [HttpPost("cart")]
@@ -41,10 +44,11 @@ public class SalesController : ControllerBase
 
     [HttpPost("cart/{cartId}/checkout")]
     [Authorize(Policy = "CanManageUsers")] // placeholder policy
-    public async Task<IActionResult> Checkout([FromQuery] string organizationId, [FromRoute] string cartId, CancellationToken ct)
+    public async Task<IActionResult> Checkout([FromQuery] string organizationId, [FromRoute] string cartId, [FromBody] IEnumerable<PaymentRequest> payments, CancellationToken ct)
     {
-        var sale = await _sales.CheckoutAsync(organizationId, cartId, ct);
-        return Ok(sale);
+        var sale = await _sales.CheckoutAsync(organizationId, cartId, payments, ct);
+        var receipt = await _receipt.GenerateReceiptAsync(organizationId, sale.Id, ct);
+        return Ok(new { sale, receipt });
     }
 }
 

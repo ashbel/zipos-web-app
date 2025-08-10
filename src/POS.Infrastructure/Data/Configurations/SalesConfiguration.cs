@@ -67,3 +67,18 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
     }
 }
 
+public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
+{
+    public void Configure(EntityTypeBuilder<Payment> builder)
+    {
+        builder.ToTable("payments");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.SaleId).IsRequired();
+        builder.Property(x => x.Method).HasMaxLength(50).IsRequired();
+        builder.Property(x => x.Amount).HasPrecision(18, 2);
+        builder.Property(x => x.Reference).HasMaxLength(100);
+        builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Captured");
+        builder.HasIndex(x => x.SaleId);
+    }
+}
+

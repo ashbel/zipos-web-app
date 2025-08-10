@@ -128,10 +128,10 @@
     - _Requirements: 7.1, 7.2_
 
   - [ ] 6.3 Add payment processing
-    - Implement multiple payment method support
-    - Add split payment functionality
-    - Create payment validation and recording
-    - Write unit tests for payment processing
+    - [x] Implement multiple payment method support
+    - [x] Add split payment functionality
+    - [x] Create payment validation and recording
+    - [ ] Write unit tests for payment processing
     - _Requirements: 7.3_
 
   - [ ] 6.4 Implement refunds and returns
