@@ -21,3 +21,17 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     }
 }
 
+public class CustomerLoyaltyConfiguration : IEntityTypeConfiguration<CustomerLoyalty>
+{
+    public void Configure(EntityTypeBuilder<CustomerLoyalty> builder)
+    {
+        builder.ToTable("customer_loyalty");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.CustomerId).IsRequired();
+        builder.Property(x => x.Points).HasDefaultValue(0);
+        builder.Property(x => x.Tier).HasMaxLength(50).HasDefaultValue("Basic");
+        builder.Property(x => x.LastUpdated).HasDefaultValueSql("now()");
+        builder.HasIndex(x => x.CustomerId).IsUnique();
+    }
+}
+

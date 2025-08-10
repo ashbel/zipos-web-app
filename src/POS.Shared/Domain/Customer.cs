@@ -10,3 +10,11 @@ public class Customer : TenantEntity
     public string? LoyaltyTier { get; set; }
 }
 
+public class CustomerLoyalty : TenantEntity
+{
+    public string CustomerId { get; set; } = string.Empty;
+    public int Points { get; set; }
+    public string Tier { get; set; } = "Basic";
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
+}
+
