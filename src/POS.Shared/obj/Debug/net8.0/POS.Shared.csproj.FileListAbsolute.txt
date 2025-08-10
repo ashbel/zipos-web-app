@@ -10,3 +10,4 @@ C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.dll
 C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\refint\POS.Shared.dll
 C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.pdb
 C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\ref\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.sourcelink.json

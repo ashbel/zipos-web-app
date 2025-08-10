@@ -3,6 +3,7 @@ using Npgsql;
 using POS.Infrastructure.Data;
 using POS.Shared.Domain;
 using POS.Shared.Infrastructure;
+using POS.Shared.Domain.Events;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -155,7 +156,11 @@ public class TenantProvisioningService : ITenantProvisioningService
 
     private sealed class NoopEventBus : IEventBus
     {
-        public Task PublishAsync(IDomainEvent domainEvent, CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task PublishAsync<T>(T @event, CancellationToken cancellationToken = default) where T : IDomainEvent
+            => Task.CompletedTask;
+
+        public Task PublishAsync(IDomainEvent @event, CancellationToken cancellationToken = default)
+            => Task.CompletedTask;
     }
 
     private sealed class StaticTenantContext : ITenantContext

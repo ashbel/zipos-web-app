@@ -15,3 +15,10 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules
 C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\refint\POS.Modules.Sales.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\ref\POS.Modules.Sales.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.sourcelink.json
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Customers.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Inventory.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Promotions.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Inventory.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Promotions.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Customers.pdb

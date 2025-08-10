@@ -202,3 +202,4 @@ C:\source\repos\zipos-web-app\tests\POS.Tests\bin\Debug\net8.0\sv\Hangfire.Core.
 C:\source\repos\zipos-web-app\tests\POS.Tests\bin\Debug\net8.0\tr-TR\Hangfire.Core.resources.dll
 C:\source\repos\zipos-web-app\tests\POS.Tests\bin\Debug\net8.0\zh-TW\Hangfire.Core.resources.dll
 C:\source\repos\zipos-web-app\tests\POS.Tests\bin\Debug\net8.0\zh\Hangfire.Core.resources.dll
+C:\source\repos\zipos-web-app\tests\POS.Tests\obj\Debug\net8.0\POS.Tests.sourcelink.json

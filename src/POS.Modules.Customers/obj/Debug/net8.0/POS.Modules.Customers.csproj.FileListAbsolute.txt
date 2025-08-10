@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Customers\obj\Debug\net8.0\POS.Mod
 C:\source\repos\zipos-web-app\src\POS.Modules.Customers\obj\Debug\net8.0\refint\POS.Modules.Customers.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Customers\obj\Debug\net8.0\POS.Modules.Customers.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Customers\obj\Debug\net8.0\ref\POS.Modules.Customers.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Customers\obj\Debug\net8.0\POS.Modules.Customers.sourcelink.json

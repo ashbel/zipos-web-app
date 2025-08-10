@@ -4,6 +4,7 @@ using POS.Infrastructure.Data;
 using POS.Shared.Domain;
 using POS.Shared.Infrastructure;
 using POS.Modules.Promotions.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace POS.Modules.Sales.Services;
 
@@ -70,8 +71,8 @@ public class SalesService : ISalesService
         string? customerTier = null;
         if (!string.IsNullOrWhiteSpace(customerId))
         {
-            var loyalty = _db.GetService<Modules.Customers.Services.ICustomerLoyaltyService>();
-            if (loyalty != null)
+            var loyalty = _db.GetService<POS.Modules.Customers.Services.ICustomerLoyaltyService>();
+            if (loyalty is not null)
             {
                 var cl = await loyalty.GetAsync(organizationId, customerId!, ct);
                 customerTier = cl.Tier;
@@ -154,8 +155,8 @@ public class SalesService : ISalesService
             }
             try
             {
-                var credit = _db.GetService<Modules.Customers.Services.ICustomerCreditService>();
-                if (credit != null)
+                var credit = _db.GetService<POS.Modules.Customers.Services.ICustomerCreditService>();
+                if (credit is not null)
                 {
                     var creditAmount = paymentsList.Where(p => string.Equals(p.Method, "Credit", StringComparison.OrdinalIgnoreCase)).Sum(p => p.Amount);
                     var ok = await credit.ChargeAsync(organizationId, customerId!, creditAmount, sale.Id, "Sale charged to customer credit", ct);
@@ -176,12 +177,12 @@ public class SalesService : ISalesService
         {
             try
             {
-                var loyalty = _db.GetService<Modules.Customers.Services.ICustomerLoyaltyService>();
-                if (loyalty != null)
+                var loyalty2 = _db.GetService<POS.Modules.Customers.Services.ICustomerLoyaltyService>();
+                if (loyalty2 != null)
                 {
                     // Example: 1 point per currency unit
                     var points = (int)Math.Floor(sale.TotalAmount);
-                    await loyalty.AddPointsAsync(organizationId, customerId!, points, ct);
+                    await loyalty2.AddPointsAsync(organizationId, customerId!, points, ct);
                 }
             }
             catch

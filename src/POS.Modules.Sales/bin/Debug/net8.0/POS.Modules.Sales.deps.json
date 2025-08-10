@@ -9,6 +9,9 @@
       "POS.Modules.Sales/1.0.0": {
         "dependencies": {
           "POS.Infrastructure": "1.0.0",
+          "POS.Modules.Customers": "1.0.0",
+          "POS.Modules.Inventory": "1.0.0",
+          "POS.Modules.Promotions": "1.0.0",
           "POS.Shared": "1.0.0"
         },
         "runtime": {
@@ -859,6 +862,42 @@
           }
         }
       },
+      "POS.Modules.Customers/1.0.0": {
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "runtime": {
+          "POS.Modules.Customers.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "POS.Modules.Inventory/1.0.0": {
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "runtime": {
+          "POS.Modules.Inventory.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "POS.Modules.Promotions/1.0.0": {
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "runtime": {
+          "POS.Modules.Promotions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "POS.Shared/1.0.0": {
         "dependencies": {
           "FluentValidation": "11.8.0",
@@ -1414,6 +1453,21 @@
       "hashPath": "system.threading.channels.6.0.0.nupkg.sha512"
     },
     "POS.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "POS.Modules.Customers/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "POS.Modules.Inventory/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "POS.Modules.Promotions/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

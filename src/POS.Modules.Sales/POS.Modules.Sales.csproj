@@ -10,6 +10,8 @@
     <ProjectReference Include="..\POS.Modules.Inventory\POS.Modules.Inventory.csproj" />
     <ProjectReference Include="..\POS.Shared\POS.Shared.csproj" />
     <ProjectReference Include="..\POS.Infrastructure\POS.Infrastructure.csproj" />
+    <ProjectReference Include="..\POS.Modules.Promotions\POS.Modules.Promotions.csproj" />
+    <ProjectReference Include="..\POS.Modules.Customers\POS.Modules.Customers.csproj" />
   </ItemGroup>
 
 </Project>

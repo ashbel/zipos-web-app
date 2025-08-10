@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Payments\obj\Debug\net8.0\POS.Modu
 C:\source\repos\zipos-web-app\src\POS.Modules.Payments\obj\Debug\net8.0\refint\POS.Modules.Payments.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Payments\obj\Debug\net8.0\POS.Modules.Payments.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Payments\obj\Debug\net8.0\ref\POS.Modules.Payments.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Payments\obj\Debug\net8.0\POS.Modules.Payments.sourcelink.json

@@ -168,3 +168,4 @@ C:\source\repos\zipos-web-app\src\POS.Web\obj\Debug\net8.0\POS.Web.pdb
 C:\source\repos\zipos-web-app\src\POS.Web\obj\Debug\net8.0\POS.Web.genruntimeconfig.cache
 C:\source\repos\zipos-web-app\src\POS.Web\obj\Debug\net8.0\ref\POS.Web.dll
 C:\source\repos\zipos-web-app\src\POS.Web\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\source\repos\zipos-web-app\src\POS.Web\obj\Debug\net8.0\POS.Web.sourcelink.json

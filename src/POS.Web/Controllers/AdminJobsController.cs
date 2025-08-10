@@ -24,7 +24,7 @@ public class AdminJobsController : ControllerBase
     [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)] // placeholder
     public IActionResult RunStockAlerts([FromQuery] string organizationId)
     {
-        _jobs.Enqueue(() => _stockAlertJob.RunAsync(organizationId));
+        _jobs.Enqueue(() => _stockAlertJob.RunAsync(organizationId, default));
         return Accepted();
     }
 
@@ -32,7 +32,7 @@ public class AdminJobsController : ControllerBase
     [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)] // placeholder
     public IActionResult RunMigrations([FromQuery] string organizationId)
     {
-        _jobs.Enqueue(() => _migrationJob.RunAsync(organizationId));
+        _jobs.Enqueue(() => _migrationJob.RunAsync(organizationId, default));
         return Accepted();
     }
 }

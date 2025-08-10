@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using POS.Infrastructure.Data;
 using POS.Shared.Infrastructure;
 

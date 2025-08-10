@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\refint\POS
 C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.pdb
 C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.genruntimeconfig.cache
 C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\ref\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.sourcelink.json

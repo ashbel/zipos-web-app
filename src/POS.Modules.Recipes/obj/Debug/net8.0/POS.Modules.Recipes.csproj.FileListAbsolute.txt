@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Recipes\obj\Debug\net8.0\POS.Modul
 C:\source\repos\zipos-web-app\src\POS.Modules.Recipes\obj\Debug\net8.0\refint\POS.Modules.Recipes.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Recipes\obj\Debug\net8.0\POS.Modules.Recipes.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Recipes\obj\Debug\net8.0\ref\POS.Modules.Recipes.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Recipes\obj\Debug\net8.0\POS.Modules.Recipes.sourcelink.json

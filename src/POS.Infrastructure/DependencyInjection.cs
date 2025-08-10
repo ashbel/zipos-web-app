@@ -64,6 +64,7 @@ public static class DependencyInjection
         services.AddHangfireServer();
         services.AddScoped<IBackgroundJobService, HangfireBackgroundJobService>();
         services.AddScoped<StockAlertJob>();
+        services.AddScoped<OutOfDateTenantMigrationJob>();
 
         // MediatR
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));

@@ -740,8 +740,14 @@
               "C:\\source\\repos\\zipos-web-app\\src\\POS.Infrastructure\\POS.Infrastructure.csproj": {
                 "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Infrastructure\\POS.Infrastructure.csproj"
               },
+              "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Customers\\POS.Modules.Customers.csproj": {
+                "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Customers\\POS.Modules.Customers.csproj"
+              },
               "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Inventory\\POS.Modules.Inventory.csproj": {
                 "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Inventory\\POS.Modules.Inventory.csproj"
+              },
+              "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Promotions\\POS.Modules.Promotions.csproj": {
+                "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Promotions\\POS.Modules.Promotions.csproj"
               },
               "C:\\source\\repos\\zipos-web-app\\src\\POS.Shared\\POS.Shared.csproj": {
                 "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Shared\\POS.Shared.csproj"

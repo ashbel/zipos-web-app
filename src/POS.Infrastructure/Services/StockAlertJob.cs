@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using POS.Infrastructure.Data;
 using POS.Shared.Infrastructure;
+using POS.Shared.Domain;
 
 namespace POS.Infrastructure.Services;
 

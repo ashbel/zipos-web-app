@@ -2056,7 +2056,9 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "POS.Infrastructure": "1.0.0",
+          "POS.Modules.Customers": "1.0.0",
           "POS.Modules.Inventory": "1.0.0",
+          "POS.Modules.Promotions": "1.0.0",
           "POS.Shared": "1.0.0"
         },
         "compile": {

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 using POS.Shared.Infrastructure;
 
 namespace POS.Modules.Authentication;

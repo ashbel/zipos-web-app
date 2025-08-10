@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Authentication\obj\Debug\net8.0\PO
 C:\source\repos\zipos-web-app\src\POS.Modules.Authentication\obj\Debug\net8.0\refint\POS.Modules.Authentication.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Authentication\obj\Debug\net8.0\POS.Modules.Authentication.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Authentication\obj\Debug\net8.0\ref\POS.Modules.Authentication.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Authentication\obj\Debug\net8.0\POS.Modules.Authentication.sourcelink.json

@@ -15,3 +15,4 @@ C:\source\repos\zipos-web-app\src\POS.Modules.Promotions\obj\Debug\net8.0\POS.Mo
 C:\source\repos\zipos-web-app\src\POS.Modules.Promotions\obj\Debug\net8.0\refint\POS.Modules.Promotions.dll
 C:\source\repos\zipos-web-app\src\POS.Modules.Promotions\obj\Debug\net8.0\POS.Modules.Promotions.pdb
 C:\source\repos\zipos-web-app\src\POS.Modules.Promotions\obj\Debug\net8.0\ref\POS.Modules.Promotions.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Promotions\obj\Debug\net8.0\POS.Modules.Promotions.sourcelink.json

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using POS.Shared.Domain;
 using POS.Shared.Domain.Events;
 using POS.Shared.Infrastructure;
@@ -70,6 +71,16 @@ public class POSDbContext : DbContext, IUnitOfWork
         var result = await base.SaveChangesAsync(cancellationToken);
         await PublishDomainEventsAsync(cancellationToken);
         return result;
+    }
+
+    // Simple service locator helper for modules that need to resolve cross-module services
+    public T? GetService<T>() where T : class
+    {
+        if (this is IInfrastructure<IServiceProvider> infrastructure)
+        {
+            return infrastructure.Instance.GetService(typeof(T)) as T;
+        }
+        return null;
     }
 
     private void UpdateAuditFields()
@@ -180,8 +191,4 @@ public class POSDbContext : DbContext, IUnitOfWork
         await Database.RollbackTransactionAsync(cancellationToken);
     }
 
-    public object GetService<T>()
-    {
-        throw new NotImplementedException();
-    }
 }
