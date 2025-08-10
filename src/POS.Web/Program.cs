@@ -86,4 +86,13 @@ app.MapFallbackToPage("/_Host");
 // Initialize database
 await POS.Infrastructure.DependencyInjection.InitializeDatabaseAsync(app.Services);
 
+// Background jobs scheduling
+using (var scope = app.Services.CreateScope())
+{
+    var recurring = scope.ServiceProvider.GetRequiredService<IBackgroundJobService>();
+    // Stock alerts job per tenant can be triggered externally; schedule a control job if needed
+    // Example: out-of-date tenant migration daily
+    // To run per tenant, enqueue with specific org id from control-plane enumeration (future enhancement)
+}
+
 app.Run();

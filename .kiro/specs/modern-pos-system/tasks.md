@@ -368,16 +368,16 @@
 
 - [ ] 21. Background Jobs and Automation
   - [ ] 21.1 Implement background job processing
-    - Set up Hangfire for background jobs
-    - Create automated stock alert jobs
-    - Implement data cleanup and maintenance jobs
+    - [x] Set up Hangfire for background jobs
+    - [x] Create automated stock alert jobs (job + endpoint to trigger per tenant)
+    - [ ] Implement data cleanup and maintenance jobs
     - Write unit tests for background jobs
     - _Requirements: 3.3, 12.3_
 
   - [ ] 21.2 Add automated reporting
-    - Create scheduled report generation
-    - Implement automated email reports
-    - Add performance monitoring jobs
+    - [ ] Create scheduled report generation
+    - [ ] Implement automated email reports
+    - [ ] Add performance monitoring jobs
     - Write integration tests for automated features
     - _Requirements: 10.3, 12.3_
 
