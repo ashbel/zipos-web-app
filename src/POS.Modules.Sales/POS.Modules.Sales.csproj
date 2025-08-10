@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\POS.Modules.Inventory\POS.Modules.Inventory.csproj" />
     <ProjectReference Include="..\POS.Shared\POS.Shared.csproj" />
     <ProjectReference Include="..\POS.Infrastructure\POS.Infrastructure.csproj" />
   </ItemGroup>

@@ -11,6 +11,7 @@ public class Product : TenantEntity
     public string? CategoryId { get; set; }
     public string Attributes { get; set; } = "{}";
     public string? ImageUrl { get; set; }
+    public bool IsActive { get; set; }
 }
 
 public class InventoryItem : TenantEntity

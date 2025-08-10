@@ -179,4 +179,9 @@ public class POSDbContext : DbContext, IUnitOfWork
     {
         await Database.RollbackTransactionAsync(cancellationToken);
     }
+
+    public object GetService<T>()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -126,7 +126,7 @@ public class SalesService : ISalesService
         {
             try
             {
-                var loyalty = _db.GetService<POS.Modules.Customers.Services.ICustomerLoyaltyService>();
+                var loyalty = _db.GetService<Modules.Customers.Services.ICustomerLoyaltyService>();
                 if (loyalty != null)
                 {
                     // Example: 1 point per currency unit

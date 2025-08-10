@@ -8,6 +8,7 @@ public class Customer : TenantEntity
     public string TaxId { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public string? LoyaltyTier { get; set; }
+    public bool IsActive { get; set; }
 }
 
 public class CustomerLoyalty : TenantEntity
