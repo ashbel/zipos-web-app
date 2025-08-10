@@ -1,0 +1,17 @@
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Sales.deps.json
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Sales.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Modules.Sales.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Shared.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\bin\Debug\net8.0\POS.Infrastructure.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.csproj.AssemblyReference.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.AssemblyInfoInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.AssemblyInfo.cs
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.csproj.CoreCompileInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modu.4A1B1FB5.Up2Date
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\refint\POS.Modules.Sales.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\POS.Modules.Sales.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Sales\obj\Debug\net8.0\ref\POS.Modules.Sales.dll

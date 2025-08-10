@@ -1,0 +1,17 @@
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.deps.json
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.runtimeconfig.json
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.pdb
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\bin\Debug\net8.0\POS.Shared.pdb
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.csproj.AssemblyReference.cache
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.AssemblyInfoInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.AssemblyInfo.cs
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.csproj.CoreCompileInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infr.1F9324E1.Up2Date
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\refint\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.pdb
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.genruntimeconfig.cache
+C:\source\repos\zipos-web-app\src\POS.Infrastructure\obj\Debug\net8.0\ref\POS.Infrastructure.dll

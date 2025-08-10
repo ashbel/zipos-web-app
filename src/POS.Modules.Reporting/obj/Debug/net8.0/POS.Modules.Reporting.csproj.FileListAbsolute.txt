@@ -1,0 +1,17 @@
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Modules.Reporting.deps.json
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Modules.Reporting.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Modules.Reporting.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Infrastructure.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Shared.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\bin\Debug\net8.0\POS.Infrastructure.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.csproj.AssemblyReference.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.AssemblyInfoInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.AssemblyInfo.cs
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.csproj.CoreCompileInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modu.19FE2DD3.Up2Date
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\refint\POS.Modules.Reporting.dll
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\POS.Modules.Reporting.pdb
+C:\source\repos\zipos-web-app\src\POS.Modules.Reporting\obj\Debug\net8.0\ref\POS.Modules.Reporting.dll

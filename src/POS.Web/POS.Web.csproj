@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\POS.Shared\POS.Shared.csproj" />
+    <ProjectReference Include="..\POS.Infrastructure\POS.Infrastructure.csproj" />
+    <ProjectReference Include="..\POS.Modules.Authentication\POS.Modules.Authentication.csproj" />
+    <ProjectReference Include="..\POS.Modules.Sales\POS.Modules.Sales.csproj" />
+    <ProjectReference Include="..\POS.Modules.Inventory\POS.Modules.Inventory.csproj" />
+    <ProjectReference Include="..\POS.Modules.Customers\POS.Modules.Customers.csproj" />
+    <ProjectReference Include="..\POS.Modules.Branches\POS.Modules.Branches.csproj" />
+    <ProjectReference Include="..\POS.Modules.Reporting\POS.Modules.Reporting.csproj" />
+    <ProjectReference Include="..\POS.Modules.Payments\POS.Modules.Payments.csproj" />
+    <ProjectReference Include="..\POS.Modules.Recipes\POS.Modules.Recipes.csproj" />
+    <ProjectReference Include="..\POS.Modules.Promotions\POS.Modules.Promotions.csproj" />
+  </ItemGroup>
+
+</Project>

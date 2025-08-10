@@ -1,0 +1,12 @@
+C:\source\repos\zipos-web-app\src\POS.Shared\bin\Debug\net8.0\POS.Shared.deps.json
+C:\source\repos\zipos-web-app\src\POS.Shared\bin\Debug\net8.0\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Shared\bin\Debug\net8.0\POS.Shared.pdb
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.csproj.AssemblyReference.cache
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.AssemblyInfoInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.AssemblyInfo.cs
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.csproj.CoreCompileInputs.cache
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\refint\POS.Shared.dll
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\POS.Shared.pdb
+C:\source\repos\zipos-web-app\src\POS.Shared\obj\Debug\net8.0\ref\POS.Shared.dll
