@@ -9,7 +9,6 @@ public class BranchesModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Branch services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.IBranchService, Services.BranchService>();
     }
 }

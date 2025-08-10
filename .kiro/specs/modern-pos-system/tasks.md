@@ -73,17 +73,18 @@
 
 - [ ] 4. Branch Management Module
   - [ ] 4.1 Implement branch entity and services
-    - Create Branch entity with settings support
-    - Implement branch CRUD operations
-    - Add branch-specific configuration management
-    - Write unit tests for branch operations
+    - [x] Create Branch entity with settings support
+    - [x] Implement branch CRUD operations
+    - [ ] Add branch-specific configuration management
+    - [ ] Write unit tests for branch operations
     - _Requirements: 2.1, 2.2_
 
   - [ ] 4.2 Add multi-branch data isolation
-    - Implement tenant-aware repository pattern
-    - Add branch-level data filtering
-    - Create branch assignment for users and devices
-    - Write integration tests for data isolation
+    - [x] Implement tenant-aware repository pattern
+    - [x] Add branch-level data filtering (via org-scoped context)
+    - [x] Create branch assignment for users
+    - [ ] Create device assignment endpoints
+    - [ ] Write integration tests for data isolation
     - _Requirements: 2.3, 2.4_
 
 - [ ] 5. Product and Inventory Module
