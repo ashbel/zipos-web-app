@@ -65,8 +65,8 @@
     - _Requirements: 1.2, 1.3_
 
   - [ ] 3.3 Add user management functionality
-    - [x] Implement user CRUD operations (Create + List)
-    - [ ] Add staff assignment to branches
+    - [x] Implement user CRUD operations (Create + List + Update + Delete)
+    - [x] Add staff assignment to branches (assign/unassign/set default)
     - [ ] Implement session logging and activity tracking
     - [ ] Write integration tests for user management
     - _Requirements: 1.4, 1.5_
