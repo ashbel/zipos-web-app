@@ -122,5 +122,56 @@ public class SalesService : ISalesService
         // Placeholder: flat 0% tax. Extend to read branch tax settings and compute
         return 0m;
     }
+
+    public async Task<Refund> ProcessRefundAsync(string organizationId, string saleId, IEnumerable<RefundLineRequest> items, string reason, string processedBy, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var sale = await _db.Set<Sale>().FirstOrDefaultAsync(s => s.Id == saleId, ct) ?? throw new InvalidOperationException("Sale not found");
+        var saleItems = await _db.Set<SaleItem>().Where(si => si.SaleId == saleId).ToListAsync(ct);
+
+        var refund = new Refund { SaleId = saleId, Amount = 0, Reason = reason, ProcessedBy = processedBy, ProcessedAt = DateTime.UtcNow };
+        _db.Set<Refund>().Add(refund);
+        await _db.SaveChangesAsync(ct);
+
+        decimal totalRefund = 0m;
+        foreach (var line in items)
+        {
+            var si = saleItems.FirstOrDefault(x => x.Id == line.SaleItemId && x.ProductId == line.ProductId) ?? throw new InvalidOperationException("Sale item not found");
+            if (line.Quantity <= 0 || line.Quantity > si.Quantity) throw new InvalidOperationException("Invalid refund quantity");
+
+            var amount = Math.Round((si.UnitPrice * line.Quantity) - (si.DiscountAmount * (line.Quantity / si.Quantity)), 2);
+            totalRefund += amount;
+            var ri = new RefundItem
+            {
+                RefundId = refund.Id,
+                SaleItemId = si.Id,
+                ProductId = si.ProductId,
+                Quantity = line.Quantity,
+                UnitPrice = si.UnitPrice,
+                DiscountAmount = Math.Round(si.DiscountAmount * (line.Quantity / si.Quantity), 2),
+                TotalAmount = amount,
+                Restocked = line.Restock
+            };
+            _db.Set<RefundItem>().Add(ri);
+
+            if (line.Restock)
+            {
+                await _inventoryService.AdjustStockAsync(organizationId, new Modules.Inventory.Services.AdjustStockRequest(si.ProductId, sale.BranchId, line.Quantity, "Refund restock"), ct);
+            }
+        }
+
+        refund.Amount = totalRefund;
+        await _db.SaveChangesAsync(ct);
+
+        // Mark sale as refunded if fully refunded
+        var paid = sale.TotalAmount;
+        if (totalRefund >= paid)
+        {
+            sale.Status = "Refunded";
+            await _db.SaveChangesAsync(ct);
+        }
+
+        return refund;
+    }
 }
 

@@ -50,5 +50,13 @@ public class SalesController : ControllerBase
         var receipt = await _receipt.GenerateReceiptAsync(organizationId, sale.Id, ct);
         return Ok(new { sale, receipt });
     }
+
+    [HttpPost("sales/{saleId}/refunds")]
+    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    public async Task<IActionResult> Refund([FromQuery] string organizationId, [FromRoute] string saleId, [FromQuery] string reason, [FromQuery] string processedBy, [FromBody] IEnumerable<RefundLineRequest> items, CancellationToken ct)
+    {
+        var refund = await _sales.ProcessRefundAsync(organizationId, saleId, items, reason, processedBy, ct);
+        return Ok(refund);
+    }
 }
 

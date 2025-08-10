@@ -52,3 +52,24 @@ public class Payment : TenantEntity
     public string Status { get; set; } = "Captured"; // Captured, Voided, Refunded
 }
 
+public class Refund : TenantEntity
+{
+    public string SaleId { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+    public string Reason { get; set; } = string.Empty;
+    public string ProcessedBy { get; set; } = string.Empty;
+    public DateTime ProcessedAt { get; set; } = DateTime.UtcNow;
+}
+
+public class RefundItem : TenantEntity
+{
+    public string RefundId { get; set; } = string.Empty;
+    public string SaleItemId { get; set; } = string.Empty;
+    public string ProductId { get; set; } = string.Empty;
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal DiscountAmount { get; set; }
+    public decimal TotalAmount { get; set; }
+    public bool Restocked { get; set; }
+}
+

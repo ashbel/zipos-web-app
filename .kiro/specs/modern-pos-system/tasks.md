@@ -135,10 +135,10 @@
     - _Requirements: 7.3_
 
   - [ ] 6.4 Implement refunds and returns
-    - Add refund processing functionality
-    - Implement return handling with inventory adjustment
-    - Create refund approval workflow
-    - Write integration tests for refunds and returns
+    - [x] Add refund processing functionality
+    - [x] Implement return handling with inventory adjustment
+    - [ ] Create refund approval workflow
+    - [ ] Write integration tests for refunds and returns
     - _Requirements: 7.5_
 
 - [ ] 7. Customer Management Module
