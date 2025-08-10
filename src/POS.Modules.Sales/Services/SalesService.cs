@@ -129,7 +129,7 @@ public class SalesService : ISalesService
         var sale = await _db.Set<Sale>().FirstOrDefaultAsync(s => s.Id == saleId, ct) ?? throw new InvalidOperationException("Sale not found");
         var saleItems = await _db.Set<SaleItem>().Where(si => si.SaleId == saleId).ToListAsync(ct);
 
-        var refund = new Refund { SaleId = saleId, Amount = 0, Reason = reason, ProcessedBy = processedBy, ProcessedAt = DateTime.UtcNow };
+        var refund = new Refund { SaleId = saleId, Amount = 0, Reason = reason, ProcessedBy = processedBy, ProcessedAt = DateTime.UtcNow, Status = "Pending" };
         _db.Set<Refund>().Add(refund);
         await _db.SaveChangesAsync(ct);
 
@@ -154,24 +154,54 @@ public class SalesService : ISalesService
             };
             _db.Set<RefundItem>().Add(ri);
 
-            if (line.Restock)
-            {
-                await _inventoryService.AdjustStockAsync(organizationId, new Modules.Inventory.Services.AdjustStockRequest(si.ProductId, sale.BranchId, line.Quantity, "Refund restock"), ct);
-            }
+            // Restock only after approval
         }
 
         refund.Amount = totalRefund;
         await _db.SaveChangesAsync(ct);
 
         // Mark sale as refunded if fully refunded
-        var paid = sale.TotalAmount;
-        if (totalRefund >= paid)
+        // Do not mark sale refunded until approval
+
+        return refund;
+    }
+
+    public async Task<bool> ApproveRefundAsync(string organizationId, string refundId, string approvedBy, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var refund = await _db.Set<Refund>().FirstOrDefaultAsync(r => r.Id == refundId, ct);
+        if (refund == null || refund.Status != "Pending") return false;
+        var sale = await _db.Set<Sale>().FirstAsync(s => s.Id == refund.SaleId, ct);
+        var lines = await _db.Set<RefundItem>().Where(ri => ri.RefundId == refundId).ToListAsync(ct);
+
+        foreach (var line in lines)
+        {
+            if (line.Restocked)
+            {
+                await _inventoryService.AdjustStockAsync(organizationId, new Modules.Inventory.Services.AdjustStockRequest(line.ProductId, sale.BranchId, line.Quantity, "Refund restock (approved)"), ct);
+            }
+        }
+
+        refund.Status = "Approved";
+        await _db.SaveChangesAsync(ct);
+
+        var totalApprovedRefunds = await _db.Set<Refund>().Where(r => r.SaleId == sale.Id && r.Status == "Approved").SumAsync(r => r.Amount, ct);
+        if (totalApprovedRefunds >= sale.TotalAmount)
         {
             sale.Status = "Refunded";
             await _db.SaveChangesAsync(ct);
         }
+        return true;
+    }
 
-        return refund;
+    public async Task<bool> RejectRefundAsync(string organizationId, string refundId, string rejectedBy, CancellationToken ct = default)
+    {
+        _tenantContext.SetTenant(organizationId);
+        var refund = await _db.Set<Refund>().FirstOrDefaultAsync(r => r.Id == refundId, ct);
+        if (refund == null || refund.Status != "Pending") return false;
+        refund.Status = "Rejected";
+        await _db.SaveChangesAsync(ct);
+        return true;
     }
 }
 

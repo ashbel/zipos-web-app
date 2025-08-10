@@ -137,7 +137,7 @@
   - [ ] 6.4 Implement refunds and returns
     - [x] Add refund processing functionality
     - [x] Implement return handling with inventory adjustment
-    - [ ] Create refund approval workflow
+    - [x] Create refund approval workflow (Pending/Approved/Rejected + policy)
     - [ ] Write integration tests for refunds and returns
     - _Requirements: 7.5_
 

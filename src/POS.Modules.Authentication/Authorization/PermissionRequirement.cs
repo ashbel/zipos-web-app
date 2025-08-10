@@ -11,3 +11,10 @@ public class PermissionRequirement : IAuthorizationRequirement
     }
 }
 
+public static class Policies
+{
+    public const string CanManageUsers = "CanManageUsers";
+    public const string CanApproveRefunds = "CanApproveRefunds";
+    public const string CanReprintReceipts = "CanReprintReceipts";
+}
+

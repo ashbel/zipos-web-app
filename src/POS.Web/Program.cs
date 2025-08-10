@@ -24,8 +24,9 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
 });
 builder.Services.AddAuthorization(options =>
 {
-    // Example policy: require 'users:manage'
-    options.AddPolicy("CanManageUsers", policy => policy.Requirements.Add(new POS.Modules.Authentication.Authorization.PermissionRequirement("users:manage")));
+    options.AddPolicy(POS.Modules.Authentication.Authorization.Policies.CanManageUsers, policy => policy.Requirements.Add(new POS.Modules.Authentication.Authorization.PermissionRequirement("users:manage")));
+    options.AddPolicy(POS.Modules.Authentication.Authorization.Policies.CanApproveRefunds, policy => policy.Requirements.Add(new POS.Modules.Authentication.Authorization.PermissionRequirement("sales:refund")));
+    options.AddPolicy(POS.Modules.Authentication.Authorization.Policies.CanReprintReceipts, policy => policy.Requirements.Add(new POS.Modules.Authentication.Authorization.PermissionRequirement("sales:receipt:reprint")));
 });
 
 // Add infrastructure services

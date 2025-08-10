@@ -93,6 +93,7 @@ public class RefundConfiguration : IEntityTypeConfiguration<Refund>
         builder.Property(x => x.Reason).HasMaxLength(200);
         builder.Property(x => x.ProcessedBy).HasMaxLength(100);
         builder.Property(x => x.ProcessedAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Pending");
         builder.HasIndex(x => x.SaleId);
     }
 }

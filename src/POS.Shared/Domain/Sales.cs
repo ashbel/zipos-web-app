@@ -59,6 +59,7 @@ public class Refund : TenantEntity
     public string Reason { get; set; } = string.Empty;
     public string ProcessedBy { get; set; } = string.Empty;
     public DateTime ProcessedAt { get; set; } = DateTime.UtcNow;
+    public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
 }
 
 public class RefundItem : TenantEntity

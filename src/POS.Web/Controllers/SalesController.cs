@@ -52,11 +52,35 @@ public class SalesController : ControllerBase
     }
 
     [HttpPost("sales/{saleId}/refunds")]
-    [Authorize(Policy = "CanManageUsers")] // placeholder policy
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanManageUsers)]
     public async Task<IActionResult> Refund([FromQuery] string organizationId, [FromRoute] string saleId, [FromQuery] string reason, [FromQuery] string processedBy, [FromBody] IEnumerable<RefundLineRequest> items, CancellationToken ct)
     {
         var refund = await _sales.ProcessRefundAsync(organizationId, saleId, items, reason, processedBy, ct);
         return Ok(refund);
+    }
+
+    [HttpPost("refunds/{refundId}/approve")]
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanApproveRefunds)]
+    public async Task<IActionResult> ApproveRefund([FromQuery] string organizationId, [FromRoute] string refundId, [FromQuery] string approvedBy, CancellationToken ct)
+    {
+        var ok = await _sales.ApproveRefundAsync(organizationId, refundId, approvedBy, ct);
+        return ok ? NoContent() : NotFound();
+    }
+
+    [HttpPost("refunds/{refundId}/reject")]
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanApproveRefunds)]
+    public async Task<IActionResult> RejectRefund([FromQuery] string organizationId, [FromRoute] string refundId, [FromQuery] string rejectedBy, CancellationToken ct)
+    {
+        var ok = await _sales.RejectRefundAsync(organizationId, refundId, rejectedBy, ct);
+        return ok ? NoContent() : NotFound();
+    }
+
+    [HttpGet("sales/{saleId}/receipt")]
+    [Authorize(Policy = POS.Modules.Authentication.Authorization.Policies.CanReprintReceipts)]
+    public async Task<IActionResult> GetReceipt([FromQuery] string organizationId, [FromRoute] string saleId, CancellationToken ct)
+    {
+        var receipt = await _receipt.GenerateReceiptAsync(organizationId, saleId, ct);
+        return Ok(new { saleId, receipt });
     }
 }
 
