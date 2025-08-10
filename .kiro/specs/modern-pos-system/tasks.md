@@ -143,17 +143,17 @@
 
 - [ ] 7. Customer Management Module
   - [ ] 7.1 Implement customer entity and services
-    - Create Customer entity with contact information
-    - Implement customer CRUD operations
-    - Add customer search and filtering
-    - Write unit tests for customer operations
+    - [x] Create Customer entity with contact information
+    - [x] Implement customer CRUD operations
+    - [x] Add customer search and filtering
+    - [ ] Write unit tests for customer operations
     - _Requirements: 9.1, 9.4_
 
   - [ ] 7.2 Add customer purchase history tracking
-    - Implement purchase history association
-    - Create customer analytics and insights
-    - Add customer loyalty tracking foundation
-    - Write integration tests for purchase history
+    - [ ] Implement purchase history association
+    - [ ] Create customer analytics and insights
+    - [ ] Add customer loyalty tracking foundation
+    - [ ] Write integration tests for purchase history
     - _Requirements: 9.2, 9.3_
 
 - [ ] 8. Web API and Controllers

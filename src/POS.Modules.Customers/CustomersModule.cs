@@ -9,7 +9,6 @@ public class CustomersModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Customer services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.ICustomerService, Services.CustomerService>();
     }
 }
