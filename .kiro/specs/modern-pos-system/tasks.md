@@ -19,29 +19,30 @@
 
 - [ ] 2. Database Foundation and Multi-Tenancy (Database-per-Tenant)
 
-  - [ ] 2.1 Control-Plane Database
-    - Create `ControlPlaneDbContext` with table `tenant_connection_strings`
-    - Add EF migration for control-plane DB and apply it
-    - Optional: add minimal `organizations` registry in control-plane
-    - _Requirements: 2.4_
+- [ ] 2.1 Control-Plane Database
+  - [x] Create `ControlPlaneDbContext` with table `tenant_connection_strings`
+  - [ ] Add EF migration for control-plane DB and apply it
+  - [ ] Optional: add minimal `organizations` registry in control-plane
+  - _Requirements: 2.4_
 
-  - [ ] 2.2 Tenant Context & Resolution
-    - Implement `ITenantMetadataStore` to read tenant connection strings
-    - Implement `ITenantConnectionResolver` to resolve per-tenant connection strings
-    - Wire resolver and context in DI; ensure `POSDbContext` uses tenant-specific connection
-    - _Requirements: 2.4_
+- [ ] 2.2 Tenant Context & Resolution
+  - [x] Implement `ITenantMetadataStore` to read tenant connection strings
+  - [x] Implement `ITenantConnectionResolver` to resolve per-tenant connection strings
+  - [x] Wire resolver and context in DI; ensure `POSDbContext` uses tenant-specific connection
+  - _Requirements: 2.4_
 
-  - [ ] 2.3 Tenant Database Schema
-    - Update `POSDbContext` to remove schema switching; use unqualified table mappings
-    - Create/update EF migrations for tenant DB tables (organizations, branches, users, roles, etc.)
-    - Ensure soft-delete filters and audit fields are applied
-    - _Requirements: 2.1, 2.4_
+- [ ] 2.3 Tenant Database Schema
+  - [x] Update `POSDbContext` to remove schema switching; use unqualified table mappings
+  - [ ] Create/update EF migrations for tenant DB tables (organizations, branches, users, roles, etc.)
+  - [x] Ensure soft-delete filters and audit fields are applied
+  - _Requirements: 2.1, 2.4_
 
-  - [ ] 2.4 Tenant Provisioning & Seeding
-    - Implement provisioning service to create tenant DB, apply migrations, and seed defaults
-    - Store encrypted tenant connection string in control-plane
-    - Add health check endpoint to validate tenant connectivity
-    - _Requirements: 2.1, 2.4_
+- [ ] 2.4 Tenant Provisioning & Seeding
+  - [x] Implement provisioning service to create tenant DB and apply migrations
+  - [ ] Seed tenant defaults (admin user, roles, settings)
+  - [ ] Store encrypted tenant connection string in control-plane
+  - [ ] Add health check endpoint to validate tenant connectivity
+  - _Requirements: 2.1, 2.4_
 
   - [ ] 2.5 Operational Automation
     - Background job to migrate out-of-date tenant databases
