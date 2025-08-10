@@ -107,3 +107,34 @@ public class StockAdjustmentConfiguration : IEntityTypeConfiguration<StockAdjust
     }
 }
 
+public class StocktakeSessionConfiguration : IEntityTypeConfiguration<StocktakeSession>
+{
+    public void Configure(EntityTypeBuilder<StocktakeSession> builder)
+    {
+        builder.ToTable("stocktake_sessions");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.BranchId).IsRequired();
+        builder.Property(x => x.Status).HasMaxLength(50).HasDefaultValue("Open");
+        builder.Property(x => x.StartedBy).HasMaxLength(100);
+        builder.Property(x => x.FinalizedBy).HasMaxLength(100);
+        builder.Property(x => x.StartedAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.FinalizedAt);
+        builder.HasIndex(x => new { x.BranchId, x.Status });
+    }
+}
+
+public class StocktakeLineConfiguration : IEntityTypeConfiguration<StocktakeLine>
+{
+    public void Configure(EntityTypeBuilder<StocktakeLine> builder)
+    {
+        builder.ToTable("stocktake_lines");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.SessionId).IsRequired();
+        builder.Property(x => x.ProductId).IsRequired();
+        builder.Property(x => x.ExpectedQty).HasPrecision(18, 3);
+        builder.Property(x => x.CountedQty).HasPrecision(18, 3);
+        builder.Property(x => x.VarianceQty).HasPrecision(18, 3);
+        builder.HasIndex(x => new { x.SessionId, x.ProductId }).IsUnique();
+    }
+}
+

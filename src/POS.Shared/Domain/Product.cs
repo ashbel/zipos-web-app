@@ -64,3 +64,22 @@ public class StockAdjustment : TenantEntity
     public DateTime? ApprovedAt { get; set; }
 }
 
+public class StocktakeSession : TenantEntity
+{
+    public string BranchId { get; set; } = string.Empty;
+    public string Status { get; set; } = "Open"; // Open, Finalized
+    public string StartedBy { get; set; } = string.Empty;
+    public DateTime StartedAt { get; set; } = DateTime.UtcNow;
+    public string? FinalizedBy { get; set; }
+    public DateTime? FinalizedAt { get; set; }
+}
+
+public class StocktakeLine : TenantEntity
+{
+    public string SessionId { get; set; } = string.Empty;
+    public string ProductId { get; set; } = string.Empty;
+    public decimal ExpectedQty { get; set; }
+    public decimal CountedQty { get; set; }
+    public decimal VarianceQty { get; set; }
+}
+

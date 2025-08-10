@@ -11,5 +11,6 @@ public class InventoryModule : IModule
     {
         services.AddScoped<Services.IProductService, Services.ProductService>();
         services.AddScoped<Services.IInventoryService, Services.InventoryService>();
+        services.AddScoped<Services.IStocktakeService, Services.StocktakeService>();
     }
 }

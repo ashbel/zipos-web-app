@@ -107,7 +107,7 @@
 
   - [ ] 5.3 Add stock adjustment functionality
     - [x] Implement stock adjustment operations (request + approve + apply)
-    - [ ] Add stocktaking support with variance reporting
+    - [x] Add stocktaking support with variance reporting (sessions, lines, finalize with optional adjustments)
     - [x] Create approval workflow for adjustments
     - [ ] Write unit tests for stock adjustments
     - _Requirements: 6.1, 6.3, 6.4_
