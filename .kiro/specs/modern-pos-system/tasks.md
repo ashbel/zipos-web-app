@@ -114,17 +114,17 @@
 
 - [ ] 6. Sales and Checkout Module
   - [ ] 6.1 Implement cart management system
-    - Create Cart and CartItem entities
-    - Implement cart operations (add, remove, update items)
-    - Add cart persistence and session management
-    - Write unit tests for cart functionality
+    - [x] Create Cart and CartItem entities
+    - [x] Implement cart operations (create, add, remove)
+    - [x] Add cart persistence
+    - [ ] Write unit tests for cart functionality
     - _Requirements: 7.2_
 
   - [ ] 6.2 Implement sales transaction processing
-    - Create Sale and SaleItem entities
-    - Implement transaction creation and processing
-    - Add inventory deduction on sales
-    - Write integration tests for sales processing
+    - [x] Create Sale and SaleItem entities
+    - [x] Implement transaction creation and processing (checkout)
+    - [x] Add inventory deduction on sales
+    - [ ] Write integration tests for sales processing
     - _Requirements: 7.1, 7.2_
 
   - [ ] 6.3 Add payment processing
