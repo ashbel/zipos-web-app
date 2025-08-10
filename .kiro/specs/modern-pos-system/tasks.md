@@ -262,17 +262,18 @@
 
 - [ ] 14. Advanced Inventory Features
   - [ ] 14.1 Implement supplier management
-    - Create Supplier entity and services
-    - Implement purchase order functionality
-    - Add supplier-specific pricing
-    - Write unit tests for supplier operations
+    - [x] Create Supplier entity and services (CRUD + search API)
+    - [ ] Implement purchase order functionality
+    - [ ] Add supplier-specific pricing
+    - [ ] Write unit tests for supplier operations
     - _Requirements: 4.1, 4.2, 4.4_
 
   - [ ] 14.2 Add purchase order processing
-    - Implement PO creation and approval workflow
-    - Create goods received note (GRN) functionality
-    - Add purchase returns processing
-    - Write integration tests for purchase workflow
+    - [x] Define PO/GRN entities and mappings
+    - [ ] Implement PO creation and approval workflow
+    - [ ] Create goods received note (GRN) functionality
+    - [ ] Add purchase returns processing
+    - [ ] Write integration tests for purchase workflow
     - _Requirements: 4.2, 4.3_
 
 - [ ] 15. Cost Tracking and Profitability

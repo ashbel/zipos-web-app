@@ -75,7 +75,18 @@ public class JwtAuthenticationService : IAuthenticationService
     public Task LogoutAsync(string organizationId, string userId, CancellationToken cancellationToken = default)
     {
         _tenantContext.SetTenant(organizationId);
-        return Task.CompletedTask;
+        return LogoutInternalAsync(userId, cancellationToken);
+    }
+
+    private async Task LogoutInternalAsync(string userId, CancellationToken cancellationToken)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+        if (user != null)
+        {
+            user.RefreshToken = null;
+            user.RefreshTokenExpiresAt = null;
+            await _db.SaveChangesAsync(cancellationToken);
+        }
     }
 
     private (string token, DateTime expiresAt) GenerateJwt(string userId, string organizationId)
