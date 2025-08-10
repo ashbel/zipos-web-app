@@ -22,7 +22,11 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "dev-secret"))
     };
 });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Example policy: require 'users:manage'
+    options.AddPolicy("CanManageUsers", policy => policy.Requirements.Add(new POS.Modules.Authentication.Authorization.PermissionRequirement("users:manage")));
+});
 
 // Add infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);

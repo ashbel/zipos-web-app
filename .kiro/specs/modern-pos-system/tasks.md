@@ -59,13 +59,13 @@
 
   - [ ] 3.2 Implement role-based authorization
     - [x] Create Role and Permission entities
-    - [ ] Implement authorization policies and handlers (in progress)
+    - [x] Implement authorization policies and handlers
     - [ ] Add role assignment and permission checking
     - [ ] Write unit tests for authorization logic
     - _Requirements: 1.2, 1.3_
 
   - [ ] 3.3 Add user management functionality
-    - [ ] Implement user CRUD operations
+    - [x] Implement user CRUD operations (Create + List)
     - [ ] Add staff assignment to branches
     - [ ] Implement session logging and activity tracking
     - [ ] Write integration tests for user management

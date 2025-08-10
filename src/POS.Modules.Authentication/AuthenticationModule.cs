@@ -10,5 +10,6 @@ public class AuthenticationModule : IModule
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddScoped<Services.IAuthenticationService, Services.JwtAuthenticationService>();
+        services.AddSingleton<IAuthorizationHandler, Authorization.PermissionHandler>();
     }
 }
