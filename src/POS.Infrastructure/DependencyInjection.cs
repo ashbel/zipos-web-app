@@ -17,6 +17,7 @@ public static class DependencyInjection
         // Control-plane and tenant-aware database services
         services.AddScoped<ITenantConnectionResolver, TenantConnectionResolver>();
         services.AddScoped<ITenantMetadataStore, ControlPlaneTenantMetadataStore>();
+        services.AddScoped<ITenantProvisioningService, TenantProvisioningService>();
         services.AddDbContext<ControlPlaneDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("ControlPlaneConnection")
                 ?? configuration.GetConnectionString("DefaultConnection")));

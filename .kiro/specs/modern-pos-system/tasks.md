@@ -17,16 +17,36 @@
   - Implement shared kernel with common domain objects and interfaces
   - _Requirements: All modules foundation_
 
-- [ ] 2. Database Foundation and Multi-Tenancy
+- [ ] 2. Database Foundation and Multi-Tenancy (Database-per-Tenant)
 
+  - [ ] 2.1 Control-Plane Database
+    - Create `ControlPlaneDbContext` with table `tenant_connection_strings`
+    - Add EF migration for control-plane DB and apply it
+    - Optional: add minimal `organizations` registry in control-plane
+    - _Requirements: 2.4_
 
+  - [ ] 2.2 Tenant Context & Resolution
+    - Implement `ITenantMetadataStore` to read tenant connection strings
+    - Implement `ITenantConnectionResolver` to resolve per-tenant connection strings
+    - Wire resolver and context in DI; ensure `POSDbContext` uses tenant-specific connection
+    - _Requirements: 2.4_
 
+  - [ ] 2.3 Tenant Database Schema
+    - Update `POSDbContext` to remove schema switching; use unqualified table mappings
+    - Create/update EF migrations for tenant DB tables (organizations, branches, users, roles, etc.)
+    - Ensure soft-delete filters and audit fields are applied
+    - _Requirements: 2.1, 2.4_
 
-  - Design and implement database schema with multi-tenant support
-  - Create base entities with OrganizationId for tenant isolation
-  - Implement Entity Framework configurations and migrations
-  - Add database seeding for initial data
-  - _Requirements: 2.1, 2.4_
+  - [ ] 2.4 Tenant Provisioning & Seeding
+    - Implement provisioning service to create tenant DB, apply migrations, and seed defaults
+    - Store encrypted tenant connection string in control-plane
+    - Add health check endpoint to validate tenant connectivity
+    - _Requirements: 2.1, 2.4_
+
+  - [ ] 2.5 Operational Automation
+    - Background job to migrate out-of-date tenant databases
+    - Scripts/runbooks for backup/restore per tenant
+    - _Requirements: 2.4_
 
 - [ ] 3. Authentication and Authorization Module
   - [ ] 3.1 Implement JWT authentication service
