@@ -285,8 +285,8 @@
     - _Requirements: 5.1, 5.2, 5.3_
 
   - [ ] 15.2 Add profitability reporting
-    - [ ] Create profit margin reports
-    - [ ] Implement product profitability analysis
+    - [x] Create profit margin reports (summary)
+    - [x] Implement product profitability analysis
     - [ ] Add cost trend reporting
     - [ ] Write integration tests for profitability features
     - _Requirements: 5.4_

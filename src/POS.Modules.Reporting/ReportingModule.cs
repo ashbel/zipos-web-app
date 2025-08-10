@@ -9,7 +9,6 @@ public class ReportingModule : IModule
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Reporting services will be configured here
-        // This is a placeholder for now
+        services.AddScoped<Services.IProfitabilityReportService, Services.ProfitabilityReportService>();
     }
 }
