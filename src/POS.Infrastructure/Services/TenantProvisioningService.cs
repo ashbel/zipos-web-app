@@ -36,7 +36,7 @@ public class TenantProvisioningService : ITenantProvisioningService
             _controlPlaneDbContext.TenantConnections.Add(new TenantConnectionInfo
             {
                 OrganizationId = organizationId,
-                ConnectionString = connectionString,
+                ConnectionString = connectionString, // encryption handled at store read path
                 Provider = "Npgsql",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow

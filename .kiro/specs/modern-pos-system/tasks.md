@@ -37,12 +37,12 @@
   - [x] Ensure soft-delete filters and audit fields are applied
   - _Requirements: 2.1, 2.4_
 
-- [ ] 2.4 Tenant Provisioning & Seeding
-  - [x] Implement provisioning service to create tenant DB and apply migrations
-  - [ ] Seed tenant defaults (admin user, roles, settings)
-  - [ ] Store encrypted tenant connection string in control-plane
-  - [ ] Add health check endpoint to validate tenant connectivity
-  - _Requirements: 2.1, 2.4_
+  - [ ] 2.4 Tenant Provisioning & Seeding
+    - [x] Implement provisioning service to create tenant DB and apply migrations
+    - [ ] Seed tenant defaults (admin user, roles, settings)
+    - [x] Store encrypted tenant connection string in control-plane (read path supports protection)
+    - [x] Add health check endpoint to validate tenant connectivity
+    - _Requirements: 2.1, 2.4_
 
   - [ ] 2.5 Operational Automation
     - Background job to migrate out-of-date tenant databases

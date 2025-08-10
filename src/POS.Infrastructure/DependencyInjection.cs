@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ITenantConnectionResolver, TenantConnectionResolver>();
         services.AddScoped<ITenantMetadataStore, ControlPlaneTenantMetadataStore>();
         services.AddScoped<ITenantProvisioningService, TenantProvisioningService>();
+        services.AddSingleton<IConnectionStringProtector, ConnectionStringProtector>();
         services.AddDbContext<ControlPlaneDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("ControlPlaneConnection")
                 ?? configuration.GetConnectionString("DefaultConnection")));
