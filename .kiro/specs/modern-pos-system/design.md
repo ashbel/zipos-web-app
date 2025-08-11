@@ -43,6 +43,7 @@ graph TB
             PaymentModule[Payment Module]
             RecipeModule[Recipe Module]
             PromotionModule[Promotion Module]
+            CurrencyModule[Currency Module]
         end
         
         subgraph "Infrastructure Layer"
@@ -150,7 +151,8 @@ src/
 │   ├── Reporting/                   # Reporting Module
 │   ├── Payments/                    # Payment Module
 │   ├── Recipes/                     # Recipe Module
-│   └── Promotions/                  # Promotion Module
+│   ├── Promotions/                  # Promotion Module
+│   └── Currency/                    # Currency Module
 ├── POS.Shared/                      # Shared Kernel
 │   ├── Domain/                      # Common domain objects
 │   ├── Infrastructure/              # Common infrastructure
@@ -306,6 +308,36 @@ public interface IReportingService
 }
 ```
 
+#### 7. Currency Management Service
+
+**Responsibilities:**
+- Multi-currency configuration and management
+- Exchange rate management and updates
+- Currency conversion calculations
+- Historical exchange rate tracking
+- Currency-specific pricing support
+
+**Key Interfaces:**
+```csharp
+public interface ICurrencyService
+{
+    Task<Currency> CreateCurrencyAsync(CreateCurrencyRequest request);
+    Task<Currency> UpdateCurrencyAsync(string currencyId, UpdateCurrencyRequest request);
+    Task<IEnumerable<Currency>> GetActiveCurrenciesAsync(string organizationId);
+    Task<Currency> GetBaseCurrencyAsync(string organizationId);
+    Task<bool> SetBaseCurrencyAsync(string organizationId, string currencyCode);
+}
+
+public interface IExchangeRateService
+{
+    Task<ExchangeRate> SetExchangeRateAsync(string fromCurrency, string toCurrency, decimal rate, string organizationId);
+    Task<ExchangeRate> GetExchangeRateAsync(string fromCurrency, string toCurrency, string organizationId, DateTime? date = null);
+    Task<decimal> ConvertAmountAsync(decimal amount, string fromCurrency, string toCurrency, string organizationId, DateTime? date = null);
+    Task<bool> UpdateExchangeRatesFromProviderAsync(string organizationId);
+    Task<IEnumerable<ExchangeRate>> GetExchangeRateHistoryAsync(string fromCurrency, string toCurrency, string organizationId, DateRange dateRange);
+}
+```
+
 ### Offline Synchronization Architecture
 
 #### Offline Data Management
@@ -400,6 +432,12 @@ public class Sale
     public decimal TaxAmount { get; set; }
     public decimal DiscountAmount { get; set; }
     public decimal TotalAmount { get; set; }
+    
+    // Multi-currency support
+    public string TransactionCurrency { get; set; } // Currency used for the transaction
+    public decimal ExchangeRate { get; set; } // Exchange rate at time of transaction
+    public decimal BaseCurrencyTotal { get; set; } // Amount in organization's base currency
+    
     public SaleStatus Status { get; set; }
     public List<SaleItem> Items { get; set; }
     public List<Payment> Payments { get; set; }
@@ -410,9 +448,73 @@ public class SaleItem
     public string Id { get; set; }
     public string ProductId { get; set; }
     public decimal Quantity { get; set; }
-    public decimal UnitPrice { get; set; }
+    public decimal UnitPrice { get; set; } // Price in transaction currency
     public decimal DiscountAmount { get; set; }
-    public decimal TotalAmount { get; set; }
+    public decimal TotalAmount { get; set; } // Total in transaction currency
+    public decimal BaseCurrencyUnitPrice { get; set; } // Price in base currency
+    public decimal BaseCurrencyTotal { get; set; } // Total in base currency
+}
+
+public class Payment
+{
+    public string Id { get; set; }
+    public string SaleId { get; set; }
+    public string Method { get; set; }
+    public decimal Amount { get; set; } // Amount in transaction currency
+    public string Currency { get; set; } // Payment currency
+    public decimal ExchangeRate { get; set; } // Exchange rate used
+    public decimal BaseCurrencyAmount { get; set; } // Amount in base currency
+    public string Reference { get; set; }
+    public PaymentStatus Status { get; set; }
+}
+```
+
+#### Currency & Exchange Rate Management
+```csharp
+public class Currency
+{
+    public string Id { get; set; }
+    public string Code { get; set; } // ISO 4217 currency code (USD, EUR, GBP, etc.)
+    public string Name { get; set; }
+    public string Symbol { get; set; }
+    public int DecimalPlaces { get; set; } // Number of decimal places for the currency
+    public bool IsActive { get; set; }
+    public bool IsBaseCurrency { get; set; }
+    public string OrganizationId { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+}
+
+public class ExchangeRate
+{
+    public string Id { get; set; }
+    public string FromCurrencyCode { get; set; }
+    public string ToCurrencyCode { get; set; }
+    public decimal Rate { get; set; }
+    public DateTime EffectiveDate { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string OrganizationId { get; set; }
+    public ExchangeRateSource Source { get; set; } // Manual, API, etc.
+    public string SourceReference { get; set; } // Reference to external rate source
+}
+
+public class ProductPrice
+{
+    public string Id { get; set; }
+    public string ProductId { get; set; }
+    public string CurrencyCode { get; set; }
+    public decimal Price { get; set; }
+    public DateTime EffectiveDate { get; set; }
+    public DateTime? ExpiryDate { get; set; }
+    public bool IsActive { get; set; }
+}
+
+public enum ExchangeRateSource
+{
+    Manual,
+    ExternalAPI,
+    BankFeed,
+    System
 }
 ```
 
@@ -437,7 +539,10 @@ PostgreSQL Cluster(s)
 │   ├── products
 │   ├── sales
 │   ├── inventory
-│   └── customers
+│   ├── customers
+│   ├── currencies
+│   ├── exchange_rates
+│   └── product_prices
 └── modernpos_org_67890 (tenant DB)
     └── ...
 ```

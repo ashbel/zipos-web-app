@@ -12,6 +12,7 @@
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "Moq": "4.20.69",
           "POS.Infrastructure": "1.0.0",
+          "POS.Modules.Currency": "1.0.0",
           "POS.Shared": "1.0.0",
           "coverlet.collector": "6.0.0",
           "xunit": "2.6.1",
@@ -1880,6 +1881,18 @@
           }
         }
       },
+      "POS.Modules.Currency/1.0.0": {
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "runtime": {
+          "POS.Modules.Currency.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "POS.Shared/1.0.0": {
         "dependencies": {
           "FluentValidation": "11.8.0",
@@ -3058,6 +3071,11 @@
       "hashPath": "xunit.runner.visualstudio.2.5.3.nupkg.sha512"
     },
     "POS.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "POS.Modules.Currency/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

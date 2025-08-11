@@ -30,6 +30,7 @@
     <ProjectReference Include="..\POS.Modules.Payments\POS.Modules.Payments.csproj" />
     <ProjectReference Include="..\POS.Modules.Recipes\POS.Modules.Recipes.csproj" />
     <ProjectReference Include="..\POS.Modules.Promotions\POS.Modules.Promotions.csproj" />
+    <ProjectReference Include="..\POS.Modules.Currency\POS.Modules.Currency.csproj" />
   </ItemGroup>
 
 </Project>

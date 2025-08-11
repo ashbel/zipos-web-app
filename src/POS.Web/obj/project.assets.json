@@ -1967,6 +1967,20 @@
           "bin/placeholder/POS.Modules.Branches.dll": {}
         }
       },
+      "POS.Modules.Currency/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "POS.Infrastructure": "1.0.0",
+          "POS.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/POS.Modules.Currency.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/POS.Modules.Currency.dll": {}
+        }
+      },
       "POS.Modules.Customers/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -5183,6 +5197,11 @@
       "path": "../POS.Modules.Branches/POS.Modules.Branches.csproj",
       "msbuildProject": "../POS.Modules.Branches/POS.Modules.Branches.csproj"
     },
+    "POS.Modules.Currency/1.0.0": {
+      "type": "project",
+      "path": "../POS.Modules.Currency/POS.Modules.Currency.csproj",
+      "msbuildProject": "../POS.Modules.Currency/POS.Modules.Currency.csproj"
+    },
     "POS.Modules.Customers/1.0.0": {
       "type": "project",
       "path": "../POS.Modules.Customers/POS.Modules.Customers.csproj",
@@ -5237,6 +5256,7 @@
       "POS.Infrastructure >= 1.0.0",
       "POS.Modules.Authentication >= 1.0.0",
       "POS.Modules.Branches >= 1.0.0",
+      "POS.Modules.Currency >= 1.0.0",
       "POS.Modules.Customers >= 1.0.0",
       "POS.Modules.Inventory >= 1.0.0",
       "POS.Modules.Payments >= 1.0.0",
@@ -5288,6 +5308,9 @@
             },
             "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Branches\\POS.Modules.Branches.csproj": {
               "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Branches\\POS.Modules.Branches.csproj"
+            },
+            "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Currency\\POS.Modules.Currency.csproj": {
+              "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Currency\\POS.Modules.Currency.csproj"
             },
             "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Customers\\POS.Modules.Customers.csproj": {
               "projectPath": "C:\\source\\repos\\zipos-web-app\\src\\POS.Modules.Customers\\POS.Modules.Customers.csproj"

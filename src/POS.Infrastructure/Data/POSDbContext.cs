@@ -28,6 +28,11 @@ public class POSDbContext : DbContext, IUnitOfWork
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<UserBranch> UserBranches { get; set; }
+    
+    // Currency entities
+    public DbSet<Currency> Currencies { get; set; }
+    public DbSet<ExchangeRate> ExchangeRates { get; set; }
+    public DbSet<ProductPrice> ProductPrices { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

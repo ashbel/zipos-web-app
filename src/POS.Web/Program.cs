@@ -43,7 +43,8 @@ var moduleAssemblies = new[]
     Assembly.Load("POS.Modules.Reporting"),
     Assembly.Load("POS.Modules.Payments"),
     Assembly.Load("POS.Modules.Recipes"),
-    Assembly.Load("POS.Modules.Promotions")
+    Assembly.Load("POS.Modules.Promotions"),
+    Assembly.Load("POS.Modules.Currency")
 };
 
 builder.Services.AddModules(moduleAssemblies);

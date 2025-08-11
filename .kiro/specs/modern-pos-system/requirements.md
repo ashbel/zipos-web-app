@@ -139,19 +139,33 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 2. WHEN tracking activities THEN the system SHALL log all system actions including stock edits and refunds
 3. WHEN monitoring attendance THEN the system SHALL track clock-in/out times and flag suspicious activities
 
-### Requirement 13: Settings & Configuration
+### Requirement 13: Multi-Currency Support
+
+**User Story:** As an international business owner, I want comprehensive multi-currency support with real-time exchange rates, so that I can serve customers in their preferred currency while maintaining accurate financial records.
+
+#### Acceptance Criteria
+
+1. WHEN configuring currencies THEN the system SHALL allow setting one base currency and multiple secondary currencies
+2. WHEN setting exchange rates THEN the system SHALL support manual exchange rate entry and automatic rate updates from external providers
+3. WHEN processing sales THEN the system SHALL allow customers to pay in any configured currency
+4. WHEN recording transactions THEN the system SHALL store the transaction currency, exchange rate at time of sale, and base currency equivalent
+5. WHEN generating reports THEN the system SHALL display amounts in base currency with original currency details available
+6. WHEN handling refunds THEN the system SHALL use the original transaction's exchange rate for consistency
+7. WHEN managing pricing THEN the system SHALL support currency-specific product pricing or automatic conversion from base currency
+8. WHEN displaying prices THEN the system SHALL show prices in the customer's selected currency with proper formatting and symbols
+
+### Requirement 14: Settings & Configuration
 
 **User Story:** As a system administrator, I want flexible configuration options, so that I can customize the system to meet specific business requirements across different branches.
 
 #### Acceptance Criteria
 
-1. WHEN configuring currencies THEN the system SHALL support multi-currency operations
-2. WHEN setting up taxes THEN the system SHALL handle both inclusive and exclusive tax configurations
-3. WHEN customizing receipts THEN the system SHALL allow custom receipt and invoice settings
-4. WHEN managing features THEN the system SHALL provide feature toggles per branch or user role
-5. WHEN maintaining data THEN the system SHALL support backup and restore functionality
+1. WHEN setting up taxes THEN the system SHALL handle both inclusive and exclusive tax configurations
+2. WHEN customizing receipts THEN the system SHALL allow custom receipt and invoice settings
+3. WHEN managing features THEN the system SHALL provide feature toggles per branch or user role
+4. WHEN maintaining data THEN the system SHALL support backup and restore functionality
 
-### Requirement 14: Mobile Compatibility
+### Requirement 15: Mobile Compatibility
 
 **User Story:** As a mobile user, I want full POS functionality on mobile devices with offline support, so that I can operate the business from anywhere with any device.
 
@@ -162,7 +176,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN network is unavailable THEN the system SHALL operate offline-first with automatic synchronization
 4. WHEN important events occur THEN the system SHALL send push notifications for stock alerts and other critical updates
 
-### Requirement 15: Recipe / Bill of Materials (BOM) Module
+### Requirement 16: Recipe / Bill of Materials (BOM) Module
 
 **User Story:** As a restaurant owner, I want recipe management with automatic ingredient deduction, so that I can track food costs accurately and manage inventory for prepared items.
 
@@ -173,7 +187,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN managing prep items THEN the system SHALL support sub-recipes and batch production
 4. WHEN calculating costs THEN the system SHALL determine cost per dish based on current ingredient pricing
 
-### Requirement 16: Promotions & Discount Engine
+### Requirement 17: Promotions & Discount Engine
 
 **User Story:** As a marketing manager, I want flexible promotion and discount capabilities, so that I can implement various marketing strategies and loyalty programs.
 
@@ -184,7 +198,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN applying discounts THEN the system SHALL support promo codes and automatic discount application
 4. WHEN managing loyalty THEN the system SHALL support loyalty tiers with different benefits
 
-### Requirement 17: Table & Reservation Management
+### Requirement 18: Table & Reservation Management
 
 **User Story:** As a restaurant manager, I want table management and reservation capabilities, so that I can optimize seating and provide better customer service.
 
@@ -194,7 +208,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 2. WHEN handling reservations THEN the system SHALL support table assignments and reservation management
 3. WHEN managing orders THEN the system SHALL support table merging/splitting and different order types (dine-in, takeaway, delivery)
 
-### Requirement 18: Delivery & Takeaway Management
+### Requirement 19: Delivery & Takeaway Management
 
 **User Story:** As a delivery business owner, I want comprehensive delivery management capabilities, so that I can efficiently handle delivery operations and customer communications.
 
@@ -205,7 +219,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN managing addresses THEN the system SHALL maintain customer address books
 4. WHEN integrating services THEN the system SHALL support WhatsApp and third-party delivery platform integrations
 
-### Requirement 19: Accounting Integration
+### Requirement 20: Accounting Integration
 
 **User Story:** As an accountant, I want seamless integration with accounting systems, so that I can maintain accurate financial records without manual data entry.
 
@@ -216,7 +230,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN generating reports THEN the system SHALL provide tax mapping and audit reports
 4. WHEN exporting data THEN the system SHALL support journal entries and GL entry exports
 
-### Requirement 20: Smart Insights & AI Features
+### Requirement 21: Smart Insights & AI Features
 
 **User Story:** As a business analyst, I want AI-powered insights and predictions, so that I can make proactive business decisions and optimize operations.
 
@@ -227,7 +241,7 @@ This document outlines the requirements for a modern, scalable, multi-purpose we
 3. WHEN monitoring transactions THEN the system SHALL detect fraud patterns and flag suspicious behavior
 4. WHEN optimizing pricing THEN the system SHALL suggest pricing and margin optimizations
 
-### Requirement 21: Additional Utilities
+### Requirement 22: Additional Utilities
 
 **User Story:** As an advanced user, I want specialized tracking and self-service capabilities, so that I can handle complex inventory scenarios and provide modern customer experiences.
 
